@@ -17,6 +17,11 @@ Route::get('/', function () {
 
 Route::auth();
 
+Route::get('images/{folder}/{filename}', function ($folder, $filename)
+{
+    return Image::make(storage_path() . '/images/' . $folder . '/' . $filename)->response();
+});
+
 Route::get('/home', 'HomeController@index');
 
 Route::get('/login/{provider?}',[
