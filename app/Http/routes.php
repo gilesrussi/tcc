@@ -34,3 +34,9 @@ Route::get('/login/callback/{provider?}',[
     'uses' => 'Auth\AuthController@getSocialAuthCallback',
     'as'   => 'auth.getSocialAuthCallback'
 ]);
+
+// Rotas para ver perfis.
+Route::get('/profile', 'ProfileController@index');
+Route::get('/profile/edit', 'ProfileController@edit');
+Route::get('/profile/{user}', 'ProfileController@show');
+Route::patch('/profile', 'ProfileController@update');
