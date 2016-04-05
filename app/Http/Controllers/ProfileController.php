@@ -37,7 +37,7 @@ class ProfileController extends Controller
         if(Auth::user()->id == $user->id) {
             return redirect('profile/');
         }
-        return $user;
+        return view('profile/index', array('user' => $user));
     }
 
     public function edit() {
@@ -46,6 +46,11 @@ class ProfileController extends Controller
 
     public function update(Request $request) {
         return $request;
+    }
+
+    public function addFriend(Request $request) {
+        Auth::user()->friends()->attach($request->user_id);
+        return redirect("profile/$request->user_id");
     }
 
 }
