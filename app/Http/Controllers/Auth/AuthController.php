@@ -7,6 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Laravel\Socialite\Contracts\Factory as Socialite;
 
 class AuthController extends Controller
 {
@@ -35,8 +36,9 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Socialite $socialite)
     {
+        $this->socialite = $socialite;
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
@@ -53,6 +55,31 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
+    }
+
+    /**
+     * @param null $provider
+     * @return mixed
+     */
+    public function getSocialAuth($provider=null)
+    {
+        if(!config("services.$provider")) abort('404'); //just to handle providers that doesn't exist
+
+        return $this->socialite->with($provider)->redirect();
+    }
+
+    /**
+     * @param null $provider
+     * @return string
+     */
+    public function getSocialAuthCallback($provider=null)
+    {
+        if($user = $this->socialite->with($provider)->user()){
+            dd(Auth::user);
+            dd($user);
+        }else{
+            return 'something went wrong';
+        }
     }
 
     /**
