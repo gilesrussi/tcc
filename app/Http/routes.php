@@ -39,4 +39,5 @@ Route::get('/login/callback/{provider?}',[
 Route::get('/profile', 'ProfileController@index');
 Route::get('/profile/edit', 'ProfileController@edit');
 Route::get('/profile/{user}', 'ProfileController@show');
+Route::post('/profile/{user}', 'ProfileController@addFriend');
 Route::patch('/profile', 'ProfileController@update');
