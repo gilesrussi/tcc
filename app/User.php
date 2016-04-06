@@ -29,7 +29,17 @@ class User extends Authenticatable
         return $this->belongsToMany('App\User', 'friends', 'user_id', 'friend_of')->withPivot('accepted')->withTimestamps();
     }
 
+
     public function hasFriend(User $user) {
         return $this->friends()->where("friend_of", $user->id)->wherePivot("accepted", 1)->count();
+
+    }
+
+    public function waitingAcceptance(User $user) {
+        return $this->friends()->where("friend_of", $user->id)->wherePivot('accepted', 0)->count();
+    }
+
+    public function noEntry(User $user) {
+        return !((bool) $this->friends()->where("friend_of", $user->id)->count());
     }
 }

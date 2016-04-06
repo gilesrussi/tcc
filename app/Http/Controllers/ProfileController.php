@@ -29,23 +29,36 @@ class ProfileController extends Controller
     }
 
     /**
+     * Função que retorna a view de acordo com o nivel de amizade:
+     *  com amizade;
+     *  pedido pendente;
+     *  aguardando resposta;
+     *  meu perfil;
+     *  desconhecido.
+     *
      * @param User $user
      * @return User
      */
 
     public function show(User $user) {
         if(Auth::user()->hasFriend($user)) {
-            return view('profile/showFriend');
+            return view('profile/showFriend', array('user' => $user));
         }
+
         if(Auth::user()->id == $user->id) {
-            return view('profile/showMe');
-        }
-        if(Auth::user()->noEntry($user)) {
-            return view('profile/showRandom', array('user' => $user));
+            return view('profile/showMe', array('user' => $user));
         }
 
+        if(Auth::user()->waitingAcceptance($user)) {
+            return view('profile/showAccept', array('user' => $user));
+        }
+        
+        if($user->noEntry(Auth::user())) {
+            return view('profile/showPerson', array('user' => $user));
+        }
 
-
+        return view('profile/showWaitingForResponse', array('user' => $user));
+        
     }
 
     public function edit() {
@@ -57,8 +70,37 @@ class ProfileController extends Controller
     }
 
     public function dealWithFriendship(Request $request) {
+        //caso já seja amigo, só pode remover. so sorry.
+        $user = User::find($request->user_id);
+        if(Auth::user()->hasFriend($user)) {
+            Auth::user()->friends()->detach($request->user_id);
+            $user->friends()->detach(Auth::user()->id);
+        }
+
+        //caso esteja respondendo um pedido de amizade, tem duas opções:
+        //aceita ou rejeita :D
+        elseif(Auth::user()->waitingAcceptance($user)) {
+            if($request->aceitar == 1) {
+                User::find($request->user_id)->friends()->attach(Auth::user()->id, array('accepted' => 1));
+                Auth::user()->friends()->updateExistingPivot($request->user_id, array('accepted' => 1));
+            } else {
+                Auth::user()->friends()->detach($request->user_id);
+            }
+        }
+
+        // enviar pedido de amizade :D
+        elseif(User::find($request->user_id)->noEntry(Auth::user())) {
+            User::find($request->user_id)->friends()->attach(Auth::user()->id);
+        }
+
+        // cancelar pedido de amizade :D
+        else {
+            User::find($request->user_id)->friends()->detach(Auth::user()->id);
+        }
+
+        return redirect()->action("ProfileController@show", [$request->user_id]);
         //Auth::user()->friends()->attach($request->user_id);
-        return redirect("profile", [$request->user_id]);
+        //return redirect("profile", [$request->user_id]);
     }
 
 }

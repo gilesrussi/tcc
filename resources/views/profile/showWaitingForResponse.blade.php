@@ -3,6 +3,6 @@
 @section('headerButtons')
     {{ Form::open(array('method' => 'POST')) }}
         {{ Form::hidden('user_id', $user->id) }}
-        {{ Form::submit('Adicionar como amigo') }}
+        {{ Form::submit('Cancelar pedido de amizade') }}
     {{ Form::close() }}
 @endsection
