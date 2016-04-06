@@ -1,13 +1,6 @@
-@extends('layouts.app')
+@extends('profile._template')
 
-@section('content')
-    <div class="container">
-        {{ Html::image($user->avatar) }}
-        {{ $user->name }}
-        {{ Form::open(array('method' => 'POST')) }}
-            {{ Form::hidden('user_id', $user->id) }}
-            {{ Form::submit('Adicionar como amigo') }}
-        {{ Form::close() }}
-
-    </div>
+@section('headerButtons')
+    {{ Form::hidden('user_id', $user->id) }}
+    {{ Form::submit('Adicionar como amigo') }}
 @endsection

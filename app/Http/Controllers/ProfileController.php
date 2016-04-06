@@ -25,7 +25,7 @@ class ProfileController extends Controller
      */
 
     public function index() {
-        return view('profile/index', array('user' => Auth::user()));
+        return redirect()->action('ProfileController@show', [Auth::user()->id]);
     }
 
     /**
@@ -34,10 +34,18 @@ class ProfileController extends Controller
      */
 
     public function show(User $user) {
-        if(Auth::user()->id == $user->id) {
-            return redirect('profile/');
+        if(Auth::user()->hasFriend($user)) {
+            return view('profile/showFriend');
         }
-        return view('profile/index', array('user' => $user));
+        if(Auth::user()->id == $user->id) {
+            return view('profile/showMe');
+        }
+        if(Auth::user()->noEntry($user)) {
+            return view('profile/showRandom', array('user' => $user));
+        }
+
+
+
     }
 
     public function edit() {
@@ -48,9 +56,9 @@ class ProfileController extends Controller
         return $request;
     }
 
-    public function addFriend(Request $request) {
-        Auth::user()->friends()->attach($request->user_id);
-        return redirect("profile/$request->user_id");
+    public function dealWithFriendship(Request $request) {
+        //Auth::user()->friends()->attach($request->user_id);
+        return redirect("profile", [$request->user_id]);
     }
 
 }
