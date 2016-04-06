@@ -81,7 +81,7 @@ class ProfileController extends Controller
         //aceita ou rejeita :D
         elseif(Auth::user()->waitingAcceptance($user)) {
             if($request->aceitar == 1) {
-                User::find($request->user_id)->friends()->attach(Auth::user()->id, array('accepted' => 1));
+                $user->friends()->attach(Auth::user()->id, array('accepted' => 1));
                 Auth::user()->friends()->updateExistingPivot($request->user_id, array('accepted' => 1));
             } else {
                 Auth::user()->friends()->detach($request->user_id);
@@ -89,18 +89,16 @@ class ProfileController extends Controller
         }
 
         // enviar pedido de amizade :D
-        elseif(User::find($request->user_id)->noEntry(Auth::user())) {
-            User::find($request->user_id)->friends()->attach(Auth::user()->id);
+        elseif($user->noEntry(Auth::user())) {
+            $user->friends()->attach(Auth::user()->id);
         }
 
         // cancelar pedido de amizade :D
         else {
-            User::find($request->user_id)->friends()->detach(Auth::user()->id);
+            $user->friends()->detach(Auth::user()->id);
         }
 
         return redirect()->action("ProfileController@show", [$request->user_id]);
-        //Auth::user()->friends()->attach($request->user_id);
-        //return redirect("profile", [$request->user_id]);
     }
 
 }
