@@ -15,10 +15,7 @@ class NavBarServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('layouts/topbar', function($view) {
-            $view->with('friendRequests', Auth::user()->friends()->wherePivot('accepted', 0));
 
-        });
     }
 
     /**

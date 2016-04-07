@@ -29,8 +29,9 @@
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Registre-se</a></li>
                 @else
-                    <li>
-                        {{ Auth::user()->friends()->wherePivot('accepted', 0)->count() }}
+                    <li><a href="#">{{ Auth::user()->friends()->wherePivot('accepted', 0)->count() }}</a></li>
+                    <li class="nav navbar-nav">
+
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
