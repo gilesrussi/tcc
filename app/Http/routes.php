@@ -35,10 +35,14 @@ Route::group(['middleware' => ['web']], function() {
         'as'   => 'auth.getSocialAuthCallback'
     ]);
 
-// Rotas para ver perfis.
+    // Rotas para ver perfis.
     Route::get('/profile', 'ProfileController@index');
     Route::get('/profile/edit', 'ProfileController@edit');
     Route::get('/profile/{user}', 'ProfileController@show');
     Route::post('/profile/{user}', 'ProfileController@dealWithFriendship');
     Route::patch('/profile', 'ProfileController@update');
+});
+
+Route::get('asd', function() {
+    return Auth::user()->trueFriends()->get();
 });
