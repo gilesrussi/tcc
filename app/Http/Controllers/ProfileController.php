@@ -73,8 +73,7 @@ class ProfileController extends Controller
         //caso já seja amigo, só pode remover. so sorry.
         $user = User::find($request->user_id);
         if(Auth::user()->hasFriend($user)) {
-            Auth::user()->friends()->detach($request->user_id);
-            $user->friends()->detach(Auth::user()->id);
+            Auth::user()->breakFriendship($user);
         }
 
         //caso esteja respondendo um pedido de amizade, tem duas opções:

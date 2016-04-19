@@ -52,4 +52,25 @@ class User extends Authenticatable
     public function noEntry(User $user) {
         return !((bool) $this->friends()->where("friend_of", $user->id)->count());
     }
+
+    public function sendFriendshipRequest(User $user) {
+        $user->friends()->attach($this->id);
+    }
+
+    public function cancelFriendshipRequest(User $user) {
+
+    }
+
+    public function confirmFriendshipRequest(User $user) {
+
+    }
+
+    public function rejectFriendshipRequest(User $user) {
+
+    }
+
+    public function breakFriendship(User $user) {
+        $this->friends()->detach($user->id);
+        $user->friends()->detach($this->id);
+    }
 }

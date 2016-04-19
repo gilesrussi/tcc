@@ -12,6 +12,7 @@
 */
 Route::group(['middleware' => ['web']], function() {
     Route::get('/', function () {
+        Toastr::success("teste louco");
         return view('welcome');
     });
 

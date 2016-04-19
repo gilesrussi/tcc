@@ -150,6 +150,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Kamaln7\Toastr\ToastrServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -205,10 +207,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Image' => Intervention\Image\Facades\Image::class,
+        'Form' => Collective\Html\FormFacade::class, // Extensão pra brincar fom formulários mais bacanas
+        'Html' => Collective\Html\HtmlFacade::class, // Extensão pra brincar com HTML mais bacana
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class, // bagulho pra fazer login com fb, gmail e twitter
+        'Image' => Intervention\Image\Facades\Image::class, // extensão que mexe melhor com as imagens
+        'Debugbar' => Barryvdh\Debugbar\Facade::class, //Debugador vindo desse site https://packagist.org/packages/barryvdh/laravel-debugbar
+        'Toastr' => Kamaln7\Toastr\Facades\Toastr::class, //Coisa pras notificações lindas e sensoais <3
 
     ],
 
