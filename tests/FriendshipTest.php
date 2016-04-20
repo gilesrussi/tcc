@@ -15,6 +15,7 @@ class TestFriendship extends TestCase {
         $user2 = factory(User::class)->create();
 
         $user1->sendFriendshipRequest($user2);
-        $this->assertTrue($user1->waitingAcceptance($user2));
+        $this->assertTrue($user1->isWaitingForResponseFrom($user2));
+        $this->assertTrue($user2->canRespondTo($user1));
     }
 }

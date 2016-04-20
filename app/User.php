@@ -45,8 +45,12 @@ class User extends Authenticatable
 
     }
 
-    public function waitingAcceptance(User $user) {
-        return $this->friends()->where("friend_of", $user->id)->wherePivot('accepted', 0)->count();
+    public function canRespondTo(User $user) {
+        return (bool) $this->friends()->where("friend_of", $user->id)->wherePivot('accepted', 0)->count();
+    }
+
+    public function isWaitingForResponseFrom(User $user) {
+        return (bool) $user->friends()->where("friend_of", $this->id)->wherePivot('accepted', 0)->count();
     }
 
     public function noEntry(User $user) {
@@ -54,7 +58,7 @@ class User extends Authenticatable
     }
 
     public function sendFriendshipRequest(User $user) {
-        $user->friends()->attach($this->id);
+        $user->friends()->attach($this->id, array('accepted' => 0));
     }
 
     public function cancelFriendshipRequest(User $user) {
