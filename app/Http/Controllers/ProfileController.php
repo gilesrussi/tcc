@@ -72,29 +72,28 @@ class ProfileController extends Controller
     public function dealWithFriendship(Request $request) {
         //caso já seja amigo, só pode remover. so sorry.
         $user = User::find($request->user_id);
-        if(Auth::user()->hasFriend($user)) {
+        if(Auth::user()->isFriend($user)) {
             Auth::user()->breakFriendship($user);
         }
 
         //caso esteja respondendo um pedido de amizade, tem duas opções:
         //aceita ou rejeita :D
-        elseif(Auth::user()->waitingAcceptance($user)) {
+        elseif(Auth::user()->canRespondTo($user)) {
             if($request->aceitar == 1) {
-                $user->friends()->attach(Auth::user()->id, array('accepted' => 1));
-                Auth::user()->friends()->updateExistingPivot($request->user_id, array('accepted' => 1));
+                Auth::user()->acceptFriendshipRequest($user);
             } else {
-                Auth::user()->friends()->detach($request->user_id);
+                Auth::user()->rejectFriendshipRequest($user);
             }
         }
 
         // enviar pedido de amizade :D
         elseif($user->noEntry(Auth::user())) {
-            $user->friends()->attach(Auth::user()->id);
+            Auth::user()->sendFriendshipRequest($user);
         }
 
         // cancelar pedido de amizade :D
         else {
-            $user->friends()->detach(Auth::user()->id);
+            Auth::user()->cancelFriendshipRequest($user);
         }
 
         return redirect()->action("ProfileController@show", [$request->user_id]);

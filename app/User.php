@@ -40,8 +40,8 @@ class User extends Authenticatable
     }
 
 
-    public function hasFriend(User $user) {
-        return $this->friends()->where("friend_of", $user->id)->wherePivot("accepted", 1)->count();
+    public function isFriend(User $user) {
+        return (bool) $this->friends()->where("friend_of", $user->id)->wherePivot("accepted", 1)->count();
 
     }
 
@@ -54,7 +54,8 @@ class User extends Authenticatable
     }
 
     public function noEntry(User $user) {
-        return !((bool) $this->friends()->where("friend_of", $user->id)->count());
+        return !((bool) $this->friends()->where("friend_of", $user->id)->count() + 
+                        $user->friends()->where("friend_of", $this->id)->count());
     }
 
     public function sendFriendshipRequest(User $user) {
@@ -62,15 +63,16 @@ class User extends Authenticatable
     }
 
     public function cancelFriendshipRequest(User $user) {
-
+        $user->friends()->detach($this->id);
     }
 
-    public function confirmFriendshipRequest(User $user) {
-
+    public function acceptFriendshipRequest(User $user) {
+        $user->friends()->attach($this->id, array('accepted' => 1));
+        $this->friends()->updateExistingPivot($user->id, array('accepted' => 1));
     }
 
     public function rejectFriendshipRequest(User $user) {
-
+        $this->friends()->detach($user->id);
     }
 
     public function breakFriendship(User $user) {
