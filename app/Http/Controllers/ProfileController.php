@@ -41,7 +41,7 @@ class ProfileController extends Controller
      */
 
     public function show(User $user) {
-        if(Auth::user()->hasFriend($user)) {
+        if(Auth::user()->isFriend($user)) {
             return view('profile/showFriend', array('user' => $user));
         }
 
@@ -49,7 +49,7 @@ class ProfileController extends Controller
             return view('profile/showMe', array('user' => $user));
         }
 
-        if(Auth::user()->waitingAcceptance($user)) {
+        if(Auth::user()->canRespondTo($user)) {
             return view('profile/showAccept', array('user' => $user));
         }
         
