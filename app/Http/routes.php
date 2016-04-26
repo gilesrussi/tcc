@@ -39,6 +39,8 @@ Route::group(['middleware' => ['web']], function() {
     //Rotas para Turma :D
     Route::group(['prefix' => 'turma'], function() {
         Route::get('/find', 'TurmaController@find');
+        Route::get('/search', 'TurmaController@search');
+        Route::get('/search/{instituicao}', 'TurmaController@search');
     });
 
     //Rotas para profile

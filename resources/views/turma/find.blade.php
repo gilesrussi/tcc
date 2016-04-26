@@ -1,23 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div id="el" class="container">
     {{ Form::open() }}
+
+
+        <p>Instituicao: @{{instituicao}}</p>
+        <p>Curso: @{{curso}}</p>
+        <p>Disciplina: @{{disciplina}}</p>
+
         <div class="form-group">
             {{ Form::label('instituicao', 'Instituição: ') }}
-            {{ Form::select('instituicao', collect([null => null])->merge($instituicoes), null, array('class' => 'form-control select2 select2_instituicao')) }}
+            <select id="instituicao" name="instituicao" v-select="instituicao" class="form-control">
+                @foreach($instituicoes as $id => $nome)
+                    <option value="{{ $id }}">{{ $nome }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="form-group">
             {{ Form::label('curso', 'Curso: ') }}
-            {{ Form::select('curso', collect([null => null])->merge($cursos), null, array('class' => 'form-control select2 select2_curso')) }}
-        </div>
-        <div class="form-group">
-            {{ Form::label('disciplina', 'Disciplina: ') }}
-            {{ Form::select('disciplina', collect([null => null])->merge($disciplinas), null, array('class' => 'form-control select2 select2_curso')) }}
+            <select id="curso" name="curso" v-select="curso" :options="options" class="form-control">
+                @foreach($cursos as $id => $nome)
+                    <option value="{{ $id }}">{{ $nome }}</option>
+                @endforeach
+            </select>
+
         </div>
 
+        <div class="form-group">
+            {{ Form::label('disciplina', 'Disciplina: ') }}
+            <select id="disciplina" name="disciplina" v-select="disciplina" :options="options" class="form-control">
+                @foreach($disciplinas as $id => $nome)
+                    <option value="{{ $id }}">{{ $nome }}</option>
+                @endforeach
+            </select>
+        </div>
+
+
+        <turmas></turmas>
+
     {{ Form::close() }}
+
+    <template id="turmas-template">
+        <ul class="list-group">
+            <li class="list-group-item" v-for="turma in list">
+                @{{ turma.id }}
+            </li>
+        </ul>
+    </template>
 </div>
 @endsection
 
@@ -25,13 +56,81 @@
 
 @section('footer')
     <script type="text/javascript">
-        $(document).ready(function() {
-            $(".select2").select2({
-                tags: true,
-                placeholder: "Selecione ou deixe em branco :D",
-                allowClear: true,
-            });
-        });
+
+
+
+
+
+
+        var vm = new Vue({
+            el: '#el',
+            data: {
+                instituicao: 0,
+                curso: 0,
+                disciplina: 0,
+            },
+
+            components: {
+                turmas: {
+                    template: '#turmas-template',
+
+                    data: function() {
+                        return {
+                            list: []
+                        };
+                    },
+
+                    created: function() {
+                        $.getJSON('search', function(turmas) {
+                            this.list = turmas;
+                        }.bind(this));
+
+                    },
+
+                    methods: {
+                        search: function (instituicao, curso, disciplina) {
+                            $.getJSON('search', {instituicao: instituicao}).done(function(data) {this.list = data}.bind(this));
+                        }
+                    }
+                },
+            },
+
+            directives: {
+                select: {
+                    twoWay: true,
+                    priority: 1000,
+
+                    params: ['options'],
+
+                    bind: function () {
+                        var self = this
+                        $(this.el)
+                                .select2({
+                                    data: this.params.options,
+                                    tags: true,
+                                    placeholder: "Selecione ou deixe em branco :D",
+                                    allowClear: true,
+                                })
+                                .on('change', function () {
+                                    self.set(this.value);
+                                    self.vm.updateTurmas();
+                                })
+                    },
+                    update: function (value) {
+                        $(this.el).val(value).trigger('change');
+                    },
+                    unbind: function () {
+                        $(this.el).off().select2('destroy')
+                    }
+                },
+            },
+
+            methods: {
+                updateTurmas: function() {
+                    this.$children[0].search(this.instituicao, this.curso, this.disciplina)
+                }
+            }
+        })
     </script>
 
 

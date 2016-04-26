@@ -28,6 +28,7 @@ elixir(function(mix) {
     mix.scripts([
         'libs/jquery.min.js',
         'libs/bootstrap.min.js',
-        'libs/toastr.min.js'
+        'libs/toastr.min.js',
+        'libs/vue.min.js'
     ])
 });

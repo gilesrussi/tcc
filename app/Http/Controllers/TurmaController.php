@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Curso;
 use App\Disciplina;
 use App\Instituicao;
+use App\Turma;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -22,5 +23,12 @@ class TurmaController extends Controller
             'cursos' => $cursos,
             'disciplinas' => $disciplinas
         ));
+    }
+
+    public function search(Request $request) {
+        if($request->instituicao) {
+            return Instituicao::all();
+        }
+        return Turma::all();
     }
 }

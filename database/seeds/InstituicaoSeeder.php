@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Instituicao;
 
 class InstituicaoSeeder extends Seeder
 {
@@ -21,6 +22,9 @@ class InstituicaoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Instituicao::class, 7)->create();
+        foreach($this->nomes as $nome) {
+            Instituicao::create(['nome' => $nome]);
+        }
+        //factory(App\Instituicao::class, 7)->create();
     }
 }
