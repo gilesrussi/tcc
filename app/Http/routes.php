@@ -36,12 +36,19 @@ Route::group(['middleware' => ['web']], function() {
         'as'   => 'auth.getSocialAuthCallback'
     ]);
 
-    // Rotas para ver perfis.
-    Route::get('/profile', 'ProfileController@index');
-    Route::get('/profile/edit', 'ProfileController@edit');
-    Route::get('/profile/{user}', 'ProfileController@show');
-    Route::post('/profile/{user}', 'ProfileController@dealWithFriendship');
-    Route::patch('/profile', 'ProfileController@update');
+    //Rotas para Turma :D
+    Route::group(['prefix' => 'turma'], function() {
+        Route::get('/find', 'TurmaController@find');
+    });
+
+    //Rotas para profile
+    Route::group(['prefix' => 'profile'] , function() {
+        Route::get('/', 'ProfileController@index');
+        Route::get('/edit', 'ProfileController@edit');
+        Route::get('/{user}', 'ProfileController@show');
+        Route::post('/{user}', 'ProfileController@dealWithFriendship');
+        Route::patch('/', 'ProfileController@update');
+    });
 });
 
 Route::get('asd', function() {

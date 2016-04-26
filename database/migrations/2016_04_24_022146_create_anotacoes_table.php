@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAnotacaosTable extends Migration
+class CreateAnotacoesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateAnotacaosTable extends Migration
      */
     public function up()
     {
-        Schema::create('anotacaos', function (Blueprint $table) {
+        Schema::create('anotacoes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('aula_id')->unsigned();
             $table->integer('user_id')->unsigned();
@@ -37,6 +37,6 @@ class CreateAnotacaosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('anotacaos');
+        Schema::drop('anotacoes');
     }
 }

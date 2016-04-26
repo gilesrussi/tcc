@@ -9,6 +9,7 @@
 
     <!-- Fonts -->
     <link href="/css/all.css" rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
     <style>
@@ -28,6 +29,8 @@
 
     <!-- JavaScripts -->
     <script src="/js/all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+    @yield('footer')
     {!! Toastr::render() !!}
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
