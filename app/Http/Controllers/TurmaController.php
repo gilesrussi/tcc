@@ -26,9 +26,6 @@ class TurmaController extends Controller
     }
 
     public function search(Request $request) {
-        if($request->instituicao) {
-            return Instituicao::all();
-        }
-        return Turma::all();
+        return Turma::withFilters($request->instituicao, $request->curso, $request->disciplina)->get();
     }
 }
