@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Turma extends Model
 {
+    public $fillable = ['instituicao_curso_disciplina_id'];
+
     public function cid() {
         return $this->belongsTo('App\CursoInstituicaoDisciplina', 'curso_instituicao_disciplina_id');
     }
@@ -24,4 +26,5 @@ class Turma extends Model
         }
         return $q;
     }
+
 }

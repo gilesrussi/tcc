@@ -11,9 +11,9 @@ class TurmaSeeder extends Seeder
      */
     public function run()
     {
-        \App\CursoInstituicaoDisciplina::create(['curso_id' => 1, 'instituicao_id' => 1, 'disciplina_id' => 1]);
-
-        \App\CursoInstituicaoDisciplina::create(['curso_id' => 1, 'instituicao_id' => 2, 'disciplina_id' => 1]);
-        \App\CursoInstituicaoDisciplina::create(['curso_id' => 1, 'instituicao_id' => 1, 'disciplina_id' => 3]);
+        $cid = App\CursoInstituicaoDisciplina::all();
+        foreach($cid as $c) {
+            App\Turma::create(['instituicao_curso_disciplina_id' => $c->id]);
+        }
     }
 }
