@@ -45,8 +45,9 @@
     <template id="turmas-template">
         <ul class="list-group">
             <li class="list-group-item" v-for="turma in list">
-                @{{ turma.id }}
+                @{{ turma.id }} - @{{ turma.instituicao }} - @{{ turma.curso }} - @{{ turma.disciplina }}
             </li>
+            <li class="list-group-item"><button class="bnt-primary">Se sua turma não existe, clique aqui para criá-la :D</button></li>
         </ul>
     </template>
 </div>
