@@ -2,16 +2,11 @@
 
 @section('content')
 <div id="el" class="container">
-    {{ Form::open() }}
-
-
-        <p>Instituicao: @{{instituicao}}</p>
-        <p>Curso: @{{curso}}</p>
-        <p>Disciplina: @{{disciplina}}</p>
+    {{ Form::open(array('url' => '/turma/create')) }}
 
         <div class="form-group">
             {{ Form::label('instituicao', 'Instituição: ') }}
-            <select id="instituicao" name="instituicao" v-select="instituicao" class="form-control">
+            <select id="instituicao" name="instituicao" v-select="instituicao" class="form-control" data-init-text="bla bla">
                 @foreach($instituicoes as $id => $nome)
                     <option value="{{ $id }}">{{ $nome }}</option>
                 @endforeach
@@ -47,7 +42,7 @@
             <li class="list-group-item" v-for="turma in list">
                 @{{ turma.id }} - @{{ turma.instituicao }} - @{{ turma.curso }} - @{{ turma.disciplina }}
             </li>
-            <li class="list-group-item"><button class="bnt-primary">Se sua turma não existe, clique aqui para criá-la :D</button></li>
+            <li class="list-group-item">{{ Form::submit('Sua turma não existe ainda? Clique aqui para criá-la!', ['class' => 'btn-primary']) }}</li>
         </ul>
     </template>
 </div>
@@ -108,7 +103,6 @@
                         $(this.el)
                                 .select2({
                                     data: this.params.options,
-                                    tags: true,
                                     placeholder: "Selecione ou deixe em branco :D",
                                     allowClear: true,
                                 })
