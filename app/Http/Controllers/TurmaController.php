@@ -9,9 +9,37 @@ use App\Turma;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Auth;
 
 class TurmaController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
+    public function index() {
+        $minhasTurmas = Auth::user()->turmas();
+        return view('turma/index', array(
+            'minhasTurmas' => $minhasTurmas
+        ));
+    }
+
+    public function store(Request $request) {
+
+    }
+
+    public function join(Turma $turma) {
+        Auth::user()->join($turma);
+        return redirect()->action('TurmaController@show', $turma->id);
+    }
+
+    public function show(Turma $turma) {
+        return view('turma/show', compact('turma'));
+    }
 
     public function find() {
         $instituicoes = Instituicao::lists('nome', 'id');
