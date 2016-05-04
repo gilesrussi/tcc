@@ -47,7 +47,9 @@
             <li class="list-group-item" v-for="turma in list">
                 @{{ turma.id }} - @{{ turma.instituicao }} - @{{ turma.curso }} - @{{ turma.disciplina }}
             </li>
+
             <li class="list-group-item"><button class="bnt-primary">Se sua turma não existe, clique aqui para criá-la :D</button></li>
+
         </ul>
     </template>
 </div>
@@ -77,21 +79,21 @@
 
                     data: function() {
                         return {
-                            list: []
+                            list: [],
+                            prev: '#'
                         };
-                    },
-
-                    created: function() {
-                        $.getJSON('search', function(turmas) {
-                            this.list = turmas;
-                        }.bind(this));
-
                     },
 
                     methods: {
                         search: function (instituicao, curso, disciplina) {
-                            $.getJSON('search', {instituicao: instituicao, curso: curso, disciplina: disciplina}).done(function(data) {this.list = data}.bind(this));
+                            $.getJSON('search', {instituicao: instituicao, curso: curso, disciplina: disciplina}).done(function(data) {this.processResponse(data)}.bind(this));
+                        },
+
+                        processResponse(turmas) {
+                            this.list = turmas.data;
+                            this.prev = turmas.prev_page_url;
                         }
+
                     }
                 },
             },
