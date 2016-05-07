@@ -54,7 +54,7 @@ class TurmaController extends Controller
     }
 
     public function search(Request $request) {
-        return Turma::withFilters($request->instituicao, $request->curso, $request->disciplina)->get();
+        return Turma::withFilters($request->instituicao, $request->curso, $request->disciplina)->paginate(10);
     }
 
     public function create(Request $request) {
