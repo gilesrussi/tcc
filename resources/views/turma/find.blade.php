@@ -72,7 +72,8 @@
 
                     data: function() {
                         return {
-                            list: []
+                            list: [],
+
                         };
                     },
 
@@ -86,10 +87,16 @@
                     methods: {
                         search: function (instituicao, curso, disciplina) {
                             $.getJSON('search', {instituicao: instituicao, curso: curso, disciplina: disciplina}).done(function(data) {this.list = data}.bind(this));
-                        }
+
+                        },
+
+
+
+
                     }
-                },
+                }
             },
+
 
             directives: {
                 select: {
