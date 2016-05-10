@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateTurmaCidIdField extends Migration
+class CreateHorariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,11 @@ class UpdateTurmaCidIdField extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('horarios', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('dia');
+            $table->string('hora');
+        });
     }
 
     /**
@@ -22,6 +26,6 @@ class UpdateTurmaCidIdField extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('horarios');
     }
 }

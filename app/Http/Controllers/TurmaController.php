@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use App\Disciplina;
+use App\Horarios;
 use App\Instituicao;
 use App\Turma;
 use Illuminate\Http\Request;
@@ -65,11 +66,13 @@ class TurmaController extends Controller
         $turma->instituicao = $request->instituicao;
         $turma->curso = $request->curso;
         $turma->disciplina = $request->disciplina;
+        $horarios = Horarios::orderBy('hora')->get();
         return view('turma/create', array(
             'instituicoes' => $instituicoes,
             'cursos' => $cursos,
             'disciplinas' => $disciplinas,
-            'turma' => $turma
+            'turma' => $turma,
+            'horarios' => $horarios
         ))->withInput($request);
     }
 }

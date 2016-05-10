@@ -42,6 +42,7 @@ Route::group(['middleware' => ['web']], function() {
         Route::get('/find', 'TurmaController@find');
         Route::get('/search', 'TurmaController@search');
         Route::post('/create', 'TurmaController@create');
+        Route::get('/create', 'TurmaController@create');
         Route::get('/{turma}', 'TurmaController@show');
         Route::post('/{turma}/join', 'TurmaController@join');
 
@@ -60,5 +61,5 @@ Route::group(['middleware' => ['web']], function() {
 });
 
 Route::get('asd', function() {
-    return Auth::user()->trueFriends()->get();
+    
 });

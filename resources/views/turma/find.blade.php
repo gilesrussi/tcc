@@ -72,22 +72,15 @@
 
                     data: function() {
                         return {
-                            list: [],
+                            list: []
 
                         };
                     },
 
-                    created: function() {
-                        $.getJSON('search', function(turmas) {
-                            this.list = turmas;
-                        }.bind(this));
-
-                    },
-
                     methods: {
                         search: function (instituicao, curso, disciplina) {
-                            $.getJSON('search', {instituicao: instituicao, curso: curso, disciplina: disciplina}).done(function(data) {this.list = data}.bind(this));
-
+                            $.getJSON('search', {instituicao: instituicao, curso: curso, disciplina: disciplina}).done(function(data) {this.list = data.data}.bind(this));
+                            console.log(this);
                         },
 
 

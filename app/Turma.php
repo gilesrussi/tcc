@@ -9,7 +9,7 @@ class Turma extends Model
     public $fillable = ['instituicao_curso_disciplina_id'];
 
     public function cid() {
-        return $this->belongsTo('App\CursoInstituicaoDisciplina', 'curso_instituicao_disciplina_id');
+        return $this->belongsTo('App\CursoInstituicaoDisciplina', 'instituicao_curso_disciplina_id');
     }
 
     public function scopeWithFilters($query, $instituicao_id = null, $curso_id = null, $disciplina_id = null) {
