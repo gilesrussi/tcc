@@ -12,8 +12,11 @@
 */
 Route::group(['middleware' => ['web']], function() {
     Route::get('/', function () {
-        Toastr::success("teste louco");
-        return view('welcome');
+        if(Auth::guest()) {
+            return view('welcome');
+        } else {
+            return redirect()->action('HomeController@index');
+        }
     });
 
     Route::auth();
@@ -43,6 +46,7 @@ Route::group(['middleware' => ['web']], function() {
         Route::get('/search', 'TurmaController@search');
         Route::post('/create', 'TurmaController@create');
         Route::get('/create', 'TurmaController@create');
+        Route::post('/store', 'TurmaController@store');
         Route::get('/{turma}', 'TurmaController@show');
         Route::post('/{turma}/join', 'TurmaController@join');
 

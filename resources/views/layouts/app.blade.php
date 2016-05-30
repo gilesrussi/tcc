@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>COED
+    @yield('title-complement')
+    </title>
 
     <!-- Fonts -->
     <link href="/css/all.css" rel='stylesheet' type='text/css'>

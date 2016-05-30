@@ -35,10 +35,10 @@
     </style>
 
     <div id="el" class="container">
-        {{ Form::model($turma, array('url' => '/turma/create')) }}
+        {{ Form::model($turma, array('url' => '/turma/store')) }}
         <div class="form-group">
             {{ Form::label('instituicao', 'Instituição: ') }}
-            <select id="instituicao" name="instituicao" v-select="instituicao" class="form-control select2">
+            <select id="instituicao" name="instituicao" v-select="instituicao" class="form-control select2" required>
                 <option></option>
                 @foreach($instituicoes as $id => $nome)
                     @if($turma->instituicao == $id)
@@ -52,7 +52,7 @@
 
         <div class="form-group">
             {{ Form::label('curso', 'Curso: ', ['class' => 'control-label']) }}
-            <select id="curso" name="curso" v-select="curso" class="form-control select2">
+            <select id="curso" name="curso" v-select="curso" class="form-control select2" required>
                 @foreach($cursos as $id => $nome)
                     <option></option>
                     @if($turma->curso == $id)
@@ -67,7 +67,7 @@
 
         <div class="form-group">
             {{ Form::label('disciplina', 'Disciplina: ') }}
-            <select id="disciplina" name="disciplina" v-select="disciplina" class="form-control select2">
+            <select id="disciplina" name="disciplina" v-select="disciplina" class="form-control select2" required>
                 @foreach($disciplinas as $id => $nome)
                     <option></option>
                     @if($turma->disciplina == $id)
@@ -77,6 +77,31 @@
                     @endif
                 @endforeach
             </select>
+        </div>
+
+        <div class="form-group">
+            {{ Form::label('data_inicio', 'Data de início: ', array('required' => 'required')) }}
+            <div>
+                {{ Form::date('data_inicio') }}
+            </div>
+        </div>
+
+        <div>
+            {{ Form::label('mensagem', 'Para criar aulas automaticamente, preencha os campos abaixo') }}
+        </div>
+
+        <div class="form-group">
+            {{ Form::label('data_fim', 'Data de conclusão: ') }}
+            <div>
+                {{ Form::date('data_fim') }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ Form::label('carga_horaria', 'Carga horária da disciplina: ') }}
+            <div>
+                {{ Form::input('carga_horaria', null) }}
+            </div>
         </div>
 
         <div class="form-group">
@@ -117,7 +142,7 @@
                         </th>
                         @foreach($dias->sortBy('dia') as $dia)
                             <td class="centerText">
-                            <input id="checkbox-{{ $dia->id }}" class="checkbox-custom" name="checkbox" type="checkbox" value="{{ $dia->id }}">
+                            <input id="checkbox-{{ $dia->id }}" class="checkbox-custom" name="checkbox[]" type="checkbox" value="{{ $dia->id }}">
                             <label for="checkbox-{{ $dia->id }}" class="checkbox-custom-label"></label>
                             </td>
                         @endforeach
@@ -127,6 +152,7 @@
 
             </table>
         </div>
+
 
         {{ Form::submit('Criar turma', ['class' => 'form-control btn btn-primary']) }}
 
