@@ -38,9 +38,9 @@
     {{ Form::close() }}
 
     <template id="turmas-template">
-        <ul class="list-group">
+        <ul class="nav list-group">
             <li class="list-group-item" v-for="turma in list">
-                @{{ turma.id }} - @{{ turma.instituicao }} - @{{ turma.curso }} - @{{ turma.disciplina }}
+                <a href="{{ url('turma') }}/@{{ turma.id }}">@{{ turma.id }} - @{{ turma.instituicao }} - @{{ turma.curso }} - @{{ turma.disciplina }}</a>
             </li>
             <li class="list-group-item">{{ Form::submit('Sua turma não existe ainda? Clique aqui para criá-la!', ['class' => 'btn-primary']) }}</li>
         </ul>

@@ -10,7 +10,8 @@
     </div>
     @include('turma.sidebar')
 
-    @yield('inner-content')
-
+    <div class="col-md-7">
+        @yield('inner-content')
+    </div>
 
 @endsection

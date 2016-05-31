@@ -46,7 +46,7 @@ Route::group(['middleware' => ['web']], function() {
         Route::get('/search', 'TurmaController@search');
         Route::post('/create', 'TurmaController@create');
         Route::get('/create', 'TurmaController@create');
-        Route::post('/store', 'TurmaController@store');
+        Route::post('/', 'TurmaController@store');
         Route::get('/{turma}', 'TurmaController@show');
         Route::any('/{turma}/join', 'TurmaController@join');
         Route::get('{turma}/leave', 'TurmaController@leave');
@@ -55,6 +55,16 @@ Route::group(['middleware' => ['web']], function() {
 
         Route::group(['prefix' => '{turma}/atividade'], function() {
             Route::get('/', 'AtividadeController@index');
+        });
+
+        Route::group(['prefix' => '{turma}/aula'], function() {
+            Route::get('/', 'AulaController@index');
+            Route::get('/create', 'AulaController@create');
+            Route::post('/', 'AulaController@store');
+            Route::get('/{aula}', 'AulaController@show');
+            Route::get('/{aula}/edit', 'AulaController@edit');
+            Route::patch('/{aula}', 'AulaController@update');
+            Route::delete('/{aula}', 'AulaController@delete');
         });
 
     });
