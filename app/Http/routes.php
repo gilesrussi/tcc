@@ -48,9 +48,14 @@ Route::group(['middleware' => ['web']], function() {
         Route::get('/create', 'TurmaController@create');
         Route::post('/store', 'TurmaController@store');
         Route::get('/{turma}', 'TurmaController@show');
-        Route::post('/{turma}/join', 'TurmaController@join');
+        Route::any('/{turma}/join', 'TurmaController@join');
+        Route::get('{turma}/leave', 'TurmaController@leave');
 
         Route::post('/', 'TurmaController@store');
+
+        Route::group(['prefix' => '{turma}/atividade'], function() {
+            Route::get('/', 'AtividadeController@index');
+        });
 
     });
 

@@ -1,30 +1,12 @@
-@extends('layouts.app')
+@extends('turma.layout')
 
-@section('content')
-    <div class="container">
-        <div class="header col-md-12">
-            <h2>Turma de {{ $turma->cid->disciplina->nome }}</h2>
-                @can('join', $turma)
-                    {{ Form::open(array('url' => "turma/$turma->id/join")) }}
-                    {{ Form::submit('Entrar nessa turma') }}
-                    {{ Form::close() }}
-                @endcan
-        </div>
-    @cannot('join', $turma)
-
-        @include('turma.sidebar')
-
+@section('inner-content')
+    @parent
         <div class="main col-md-7">
             <div class="row">Instituição: {{ $turma->cid->instituicao->nome }}</div>
             <div class="row">Curso: {{ $turma->cid->curso->nome }}</div>
-
+            @can('post', $turma)
+                Aqui vai estar o resumo das coisas da turma, como próximas aulas, atividades, notas, faltas, etc.
+            @endcan
         </div>
-    @endcannot
-    </div>
-@endsection
-
-
-
-@section('footer')
-
 @endsection

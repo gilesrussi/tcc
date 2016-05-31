@@ -3,15 +3,11 @@
 @section('content')
 <div class="container">
     <h2>Minhas turmas</h2>
+    <ul class="nav list-group">
     @foreach($minhasTurmas as $turma)
-        {{ $turma->id }}
+        <li class="list-group-item">{{ link_to_action('TurmaController@show', $turma->cid->disciplina->nome, array('turma' => $turma->id)) }}</li>
     @endforeach
+    </ul>
     <a href="turma/find">Entrar em outra turma</a>
 </div>
-@endsection
-
-
-
-@section('footer')
-
 @endsection

@@ -26,9 +26,9 @@
 </head>
 <body id="app-layout">
     @include('layouts.topbar')
-
-    @yield('content')
-
+    <div class="container">
+        @yield('content')
+    </div>
     <!-- JavaScripts -->
     <script src="/js/all.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>

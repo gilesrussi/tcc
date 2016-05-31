@@ -15,4 +15,8 @@ class TurmaPolicy
     public function join(User $user, Turma $turma) {
         return ! $user->participates($turma);
     }
+
+    public function post(User $user, Turma $turma) {
+        return $user->participates($turma);
+    }
 }

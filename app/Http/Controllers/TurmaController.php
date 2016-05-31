@@ -23,7 +23,7 @@ class TurmaController extends Controller
 
 
     public function index() {
-        $minhasTurmas = Auth::user()->turmas();
+        $minhasTurmas = Auth::user()->turmas()->get();
         return view('turma/index', array(
             'minhasTurmas' => $minhasTurmas
         ));
