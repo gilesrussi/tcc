@@ -16,12 +16,22 @@ class AulaController extends Controller
         ));
     }
 
+    public function show(Turma $turma, Aula $aula) {
+        return view('aula.show', array(
+            'turma' => $turma,
+            'aula' => $aula
+        ));
+    }
+
     public function create(Turma $turma) {
         return view('aula.create', array('turma' => $turma));
     }
 
     public function store(Turma $turma, Request $request) {
-        $turma->adicionarAula($request);
+        $aula = new Aula($request->all());
+        $aula->turma_id = $turma->id;
+        $aula->save();
+        return redirect()->action('AulaController@index', array('turma' => $turma->id));
     }
 
     public function edit(Turma $turma, Aula $aula) {

@@ -33,10 +33,7 @@ class Turma extends Model
     public function aulas() {
         return $this->hasMany('App\Aula');
     }
-
-    public function adicionarAula() {
-        $this->aulas()->attach()
-    }
+    
 
     public function atividades() {
         return $this->hasMany('App\Atividade');
