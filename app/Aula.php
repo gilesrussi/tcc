@@ -11,6 +11,7 @@ class Aula extends Model
 
     protected $dates = ['created_at', 'updated_at', 'dia'];
 
+    
 
     public function getDiaAttribute($value) {
         return date('d/m/Y', strtotime($value));

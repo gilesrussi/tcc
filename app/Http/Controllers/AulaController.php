@@ -42,6 +42,8 @@ class AulaController extends Controller
     }
 
     public function update(Request $request, Turma $turma, Aula $aula) {
+        $aula->update($request->all());
 
+        return redirect()->action('AulaController@show', array('turma' => $turma->id, 'aula' => $aula->id));
     }
 }
