@@ -12,7 +12,7 @@
             <div class="form-group">
             @if(Auth::user()->tenhoAnotacao($aula))
                 <div class="row">
-                    {{ App\Anotacao::anotacaoDoUsuario($aula, Auth::user())->get()->first()->anotacao }}
+                    <pre>{{ App\Anotacao::anotacaoDoUsuario($aula, Auth::user())->get()->first()->anotacao }}</pre>
                 </div>
                 {{ link_to_action("AnotacaoController@edit", "Editar minha anotação", array('turma' => $turma->id, 'aula' => $aula->id)) }}
             @else
@@ -25,7 +25,7 @@
             </div>
         {{ Form::label("anotacoes_colegas", "Anotações dos colegas: ") }}
         <ul class="list-group">
-            @forelse($aula->anotacoes()->where('user_id', '!=', Auth::user()->id)->get() as $anotacao)
+            @forelse($aula->anotacoes()->where('user_id', '!=', Auth::user()->id)->where('publico', '=', 1)->get() as $anotacao)
                 <li class="list-group-item">{{ link_to_action('AnotacaoController@show', $anotacao->user()->get()->first()->name, array('turma' => $turma->id, 'aula' => $aula->id, 'anotacao' => $anotacao->id)) }}</li>
             @empty
                 <li class="list-group-item">Nenhum colega seu compartilhou anotações para essa aula ):</li>

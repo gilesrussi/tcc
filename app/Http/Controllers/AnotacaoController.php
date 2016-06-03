@@ -41,7 +41,7 @@ class AnotacaoController extends Controller
     }
 
     public function index(Turma $turma) {
-        $anotacoes = Anotacao::doUsuarioNaTurma(Auth::user(), $turma)->get();
+        $anotacoes = Anotacao::doUsuarioNaTurma(Auth::user(), $turma)->orderBy('aulas.dia')->get();
         return view('anotacao.index', compact('turma', 'anotacoes'));
     }
 

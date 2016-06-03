@@ -33,7 +33,6 @@ class Turma extends Model
     public function aulas() {
         return $this->hasMany('App\Aula')->orderBy('dia');
     }
-    
 
     public function atividades() {
         return $this->hasMany('App\Atividade');

@@ -77,6 +77,8 @@ Route::group(['middleware' => ['web']], function() {
 
         });
         Route::get('{turma}/anotacoes', 'AnotacaoController@index');
+        Route::get('{turma}/faltas', 'FaltaController@index');
+        Route::post('{turma}/faltas', 'FaltaController@store');
     });
 
     //Rotas para profile

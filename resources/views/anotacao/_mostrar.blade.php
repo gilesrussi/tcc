@@ -5,7 +5,7 @@
             {{ link_to_action('AulaController@show', $anotacao->aula->header, array('turma' => $anotacao->aula->turma_id, 'aula' => $anotacao->aula_id)) }}
         </div>
         <div class="panel-body">
-            {{ $anotacao->anotacao }}
+            <pre>{{ $anotacao->anotacao }}</pre>
         </div>
         <div class="panel-footer">
             {{ link_to_action('AnotacaoController@edit', 'Editar', array('turma' => $anotacao->aula->turma_id, 'aula' => $anotacao->aula_id)) }}

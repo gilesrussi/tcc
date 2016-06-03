@@ -59,6 +59,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Anotacao');
     }
 
+    public function faltas() {
+        return $this->hasMany('App\Ausencia');
+    }
+
     /**
      * @param $query
      * @param int $search
