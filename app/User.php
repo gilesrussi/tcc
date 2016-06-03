@@ -51,6 +51,14 @@ class User extends Authenticatable
         return (bool) $this->turmas()->where('turma_id','=',$turma->id)->count();
     }
 
+    public function tenhoAnotacao(Aula $aula) {
+        return (bool) $this->anotacoes()->where('aula_id', '=', $aula->id)->count();
+    }
+
+    public function anotacoes() {
+        return $this->hasMany('App\Anotacao');
+    }
+
     /**
      * @param $query
      * @param int $search

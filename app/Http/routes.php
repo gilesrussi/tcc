@@ -65,8 +65,18 @@ Route::group(['middleware' => ['web']], function() {
             Route::get('/{aula}/edit', 'AulaController@edit');
             Route::patch('/{aula}', 'AulaController@update');
             Route::delete('/{aula}', 'AulaController@delete');
-        });
 
+            Route::group(['prefix' => '{aula}/anotacao'], function() {
+                Route::get('/create', 'AnotacaoController@create');
+                Route::post('/', 'AnotacaoController@store');
+                Route::get('/edit', 'AnotacaoController@edit');
+                Route::patch('/', 'AnotacaoController@update');
+                Route::put('/', 'AnotacaoController@update');
+                Route::get('/{anotacao}/show', 'AnotacaoController@show');
+            });
+
+        });
+        Route::get('{turma}/anotacoes', 'AnotacaoController@index');
     });
 
     //Rotas para profile

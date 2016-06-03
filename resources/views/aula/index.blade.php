@@ -5,7 +5,7 @@
     <h2>Aulas</h2>
     <ul class="nav list-group">
         @forelse($turma->aulas()->get() as $aula)
-            <li class="list-group-item">{{ link_to_action('AulaController@show', $aula->dia . ", das " . $aula->horario_inicio . " às " . $aula->horario_fim, array('turma' => $turma->id, 'aula' => $aula->id)) }}</li>
+            <li class="list-group-item">{{ link_to_action('AulaController@show', $aula->header, array('turma' => $turma->id, 'aula' => $aula->id)) }}</li>
         @empty
             <li class="list-group-item">Nenhuma aula cadastrada ):</li>
         @endforelse

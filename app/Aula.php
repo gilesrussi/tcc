@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Aula extends Model
 {
-    protected $fillable = ['dia', 'horario_inicio', 'horario_fim'];
+    protected $fillable = ['dia', 'horario_inicio', 'horario_fim', 'descricao'];
 
     protected $dates = ['created_at', 'updated_at', 'dia'];
 
@@ -32,6 +32,18 @@ class Aula extends Model
 
     public function turma() {
         return $this->belongsTo('App\Turma');
+    }
+
+    public function getHeaderAttribute($value) {
+        return "Aula do dia " . $this->dia . ", das " . $this->horario_inicio . " às " . $this->horario_fim;
+    }
+
+    public function anotacoes() {
+        return $this->hasMany('App\Anotacao');
+    }
+
+    public function get(QueryBuilder $query, User $user) {
+        return $query->with('')->where('user_id', '=', $user->id)->andWhere('aula_id', '=', $this->id);
     }
 
 

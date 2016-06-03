@@ -7,13 +7,13 @@
             </ul>
         @else
             <ul class="nav nav-sidebar">
-                <li>{{ link_to_action('TurmaController@show', 'Resumo', array('turma' => $turma->id)) }}</li>
+                <li>{{ link_to_action('TurmaController@show', 'Mural', array('turma' => $turma->id)) }}</li>
                 <li>{{ link_to_action('AulaController@index', 'Aulas', array('turma' => $turma->id)) }}</li>
                 <li>{{ link_to_action('AtividadeController@index', 'Atividades', array('turma' => $turma->id)) }}</li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="#">Minhas faltas</a></li>
-                <li><a href="#">Minhas Anotações</a></li>
+                <li>{{ link_to_action('AnotacaoController@index', 'Minhas Anotações', array('turma' => $turma->id)) }}</li>
                 <li><a href="#">Minhas Notas</a></li>
 
             </ul>
