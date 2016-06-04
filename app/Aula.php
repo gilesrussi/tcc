@@ -42,8 +42,18 @@ class Aula extends Model
         return $this->hasMany('App\Anotacao');
     }
 
-    public function get(QueryBuilder $query, User $user) {
-        return $query->with('')->where('user_id', '=', $user->id)->andWhere('aula_id', '=', $this->id);
+    public function cancelar() {
+        $this->cancelada = 1;
+        $this->save();
+    }
+
+    public function descancelar() {
+        $this->cancelada = 0;
+        $this->save();
+    }
+    
+    public function esta_cancelada() {
+        return (bool) $this->cancelada;
     }
 
 

@@ -64,7 +64,8 @@ Route::group(['middleware' => ['web']], function() {
             Route::get('/{aula}', 'AulaController@show');
             Route::get('/{aula}/edit', 'AulaController@edit');
             Route::patch('/{aula}', 'AulaController@update');
-            Route::delete('/{aula}', 'AulaController@delete');
+            Route::get('/{aula}/cancelar', 'AulaController@cancel');
+            Route::get('/{aula}/descancelar', 'AulaController@descancelar');
 
             Route::group(['prefix' => '{aula}/anotacao'], function() {
                 Route::get('/create', 'AnotacaoController@create');
