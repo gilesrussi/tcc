@@ -12,5 +12,9 @@ class Material extends Model
      *
      * @var string $table
      */
-    private $table = 'materiais';
+    protected $table = 'materiais';
+
+    public function turma() {
+        return $this->belongsTo('App\Turma');
+    }
 }

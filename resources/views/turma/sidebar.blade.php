@@ -18,8 +18,7 @@
 
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="#">Referências</a></li>
-                <li><a href="#">Materiais</a></li>
+                <li>{{ link_to_action('MaterialController@index', 'Materiais', array('turma' => $turma->id)) }}</li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li>{{ link_to_action("TurmaController@leave", 'Sair dessa turma', array('turma' => $turma->id)) }}</li>

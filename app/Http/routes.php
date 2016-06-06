@@ -50,8 +50,14 @@ Route::group(['middleware' => ['web']], function() {
         Route::get('/{turma}', 'TurmaController@show');
         Route::any('/{turma}/join', 'TurmaController@join');
         Route::get('{turma}/leave', 'TurmaController@leave');
-
         Route::post('/', 'TurmaController@store');
+
+        Route::group(['prefix' => '{turma}/material'], function() {
+            Route::get('/', 'MaterialController@index');
+            Route::get('/create', 'MaterialController@create');
+            Route::post('/', 'MaterialController@store');
+            Route::get('/{material}', 'MaterialController@show');
+        });
 
         Route::group(['prefix' => '{turma}/atividade'], function() {
             Route::get('/', 'AtividadeController@index');
@@ -72,7 +78,6 @@ Route::group(['middleware' => ['web']], function() {
                 Route::put('/', 'NotaController@update');
             });
         });
-
         Route::get('{turma}/notas', 'NotaController@index');
 
         Route::group(['prefix' => '{turma}/aula'], function() {

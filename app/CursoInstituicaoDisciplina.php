@@ -19,4 +19,8 @@ class CursoInstituicaoDisciplina extends Model
     public function disciplina() {
         return $this->belongsTo(Disciplina::class);
     }
+
+    public function turmas() {
+        return $this->hasMany('App\Turma', 'instituicao_curso_disciplina_id');
+    }
 }
