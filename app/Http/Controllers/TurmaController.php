@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Ausencia;
 use App\Curso;
 use App\Disciplina;
 use App\Horarios;
 use App\Instituicao;
+use App\Nota;
 use App\Turma;
 use Illuminate\Http\Request;
 
@@ -40,7 +42,10 @@ class TurmaController extends Controller
     }
 
     public function show(Turma $turma) {
-        return view('turma/show', compact('turma'));
+        $turma = Turma::where('id', $turma->id)->with('aulas')->with('anotacoes')->with('atividades')->get()->first();
+        $minhasFaltas = Ausencia::doUsuarioNaTurma(Auth::user(), $turma);
+        $minhasNotas = Nota::doUsuarioNaTurma(Auth::user(), $turma);
+        return view('turma/show', compact('turma', 'minhasFaltas', 'minhasNotas'));
     }
 
     public function find() {

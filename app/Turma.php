@@ -34,6 +34,10 @@ class Turma extends Model
         return $this->hasMany('App\Aula')->orderBy('dia');
     }
 
+    public function anotacoes() {
+        return $this->hasManyThrough('App\Anotacao', 'App\Aula');
+    }
+
     public function materiais() {
         return $this->hasMany('App\Material');
     }
