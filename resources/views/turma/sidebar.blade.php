@@ -14,7 +14,7 @@
             <ul class="nav nav-sidebar">
                 <li>{{ link_to_action('FaltaController@index', 'Minhas Faltas', array('turma' => $turma->id)) }}</li>
                 <li>{{ link_to_action('AnotacaoController@index', 'Minhas Anotações', array('turma' => $turma->id)) }}</li>
-                <li><a href="#">Minhas Notas</a></li>
+                <li>{{ link_to_action('NotaController@index', 'Minhas Notas', array('turma' => $turma->id)) }}</li>
 
             </ul>
             <ul class="nav nav-sidebar">

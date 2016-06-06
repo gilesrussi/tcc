@@ -43,7 +43,7 @@
                 @if($aula->esta_cancelada())
                 <li>{{link_to_action('AulaController@descancelar', 'Descancelar aula', array('turma' => $turma->id, 'aula' => $aula->id))}}</li>
                 @else
-                    <li>{{link_to_action('AulaController@cancel', 'Cancelar aula', array('turma' => $turma->id, 'aula' => $aula->id))}}</li>
+                    <li>{{link_to_action('AulaController@cancelar', 'Cancelar aula', array('turma' => $turma->id, 'aula' => $aula->id))}}</li>
                 @endif
             </ul>
 

@@ -55,8 +55,16 @@ class User extends Authenticatable
         return (bool) $this->anotacoes()->where('aula_id', '=', $aula->id)->count();
     }
 
+    public function tenhoNota(Atividade $atividade) {
+        return (bool) $this->notas()->where('atividade_id', '=', $atividade->id)->count();
+    }
+
     public function anotacoes() {
         return $this->hasMany('App\Anotacao');
+    }
+
+    public function notas() {
+        return $this->hasMany('App\Nota');
     }
 
     public function faltas() {

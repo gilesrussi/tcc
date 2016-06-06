@@ -55,7 +55,25 @@ Route::group(['middleware' => ['web']], function() {
 
         Route::group(['prefix' => '{turma}/atividade'], function() {
             Route::get('/', 'AtividadeController@index');
+            Route::get('/create', 'AtividadeController@create');
+            Route::post('/', 'AtividadeController@store');
+            Route::get('/{atividade}', 'AtividadeController@show');
+            Route::get('/{atividade}/edit', 'AtividadeController@edit');
+            Route::put('/{atividade}', 'AtividadeController@update');
+            Route::patch('/{atividade}', 'AtividadeController@update');
+            Route::get('/{atividade}/cancelar', 'AtividadeController@cancelar');
+            Route::get('/{atividade}/descancelar', 'AtividadeController@descancelar');
+
+            Route::group(['prefix' => '{atividade}/nota'], function() {
+                Route::get('/create', 'NotaController@create');
+                Route::post('/', 'NotaController@store');
+                Route::get('/edit', 'NotaController@edit');
+                Route::patch('/', 'NotaController@update');
+                Route::put('/', 'NotaController@update');
+            });
         });
+
+        Route::get('{turma}/notas', 'NotaController@index');
 
         Route::group(['prefix' => '{turma}/aula'], function() {
             Route::get('/', 'AulaController@index');
@@ -64,7 +82,8 @@ Route::group(['middleware' => ['web']], function() {
             Route::get('/{aula}', 'AulaController@show');
             Route::get('/{aula}/edit', 'AulaController@edit');
             Route::patch('/{aula}', 'AulaController@update');
-            Route::get('/{aula}/cancelar', 'AulaController@cancel');
+            Route::put('/{aula}', 'AulaController@update');
+            Route::get('/{aula}/cancelar', 'AulaController@cancelar');
             Route::get('/{aula}/descancelar', 'AulaController@descancelar');
 
             Route::group(['prefix' => '{aula}/anotacao'], function() {

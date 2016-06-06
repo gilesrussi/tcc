@@ -13,6 +13,11 @@ use Auth;
 
 class AnotacaoController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('participa_da_turma');
+    }
+
     public function create(Turma $turma, Aula $aula) {
         return view('anotacao.create', compact('turma', 'aula'));
     }

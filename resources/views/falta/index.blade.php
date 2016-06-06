@@ -12,7 +12,7 @@
                 $aula->id,
                 $faltas->where('aula_id', $aula->id)->count(),
                  array('id' => 'falta-' . $aula->id)) }}
-            {{ Form::label('falta-' . $aula->id, $aula->header) }}
+            {{ Form::label('falta-' . $aula->id, $aula->header . ($aula->esta_cancelada() ? ' (Cancelada)' : '')) }}
         </li>
     @empty
         <li class="list-group-item">Não há nenhuma aula cadastrada</li>

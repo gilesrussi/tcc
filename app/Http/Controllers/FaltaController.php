@@ -12,6 +12,10 @@ use Mockery\CountValidator\Exception;
 
 class FaltaController extends Controller
 {
+    public function __construct() {
+        $this->middleware('participa_da_turma');
+    }
+
     public function index(Turma $turma) {
         $aulas = $turma->aulas()->get();
         $faltas = Ausencia::doUsuarioNaTurma(Auth::user(), $turma)->get();

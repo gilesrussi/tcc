@@ -10,6 +10,11 @@ use App\Http\Requests;
 
 class AulaController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('participa_da_turma');
+    }
+
     public function index(Turma $turma) {
         return view('aula.index', array(
             'turma' => $turma,
