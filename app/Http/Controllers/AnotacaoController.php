@@ -16,6 +16,11 @@ class AnotacaoController extends Controller
 
     public function __construct() {
         $this->middleware('participa_da_turma');
+        $this->middleware('aula_da_turma', array(
+            'except' => array(
+                'index',
+            )
+        ));
     }
 
     public function create(Turma $turma, Aula $aula) {

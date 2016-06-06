@@ -49,5 +49,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'participa_da_turma' => \App\Http\Middleware\ParticipaDaTurma::class,
+        'aula_da_turma' => \App\Http\Middleware\AulaDaTurma::class,
+        'atividade_da_turma' => \App\Http\Middleware\AtividadeDaTurma::class,
     ];
 }

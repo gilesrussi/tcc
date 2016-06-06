@@ -14,6 +14,11 @@ class AtividadeController extends Controller
 
     public function __construct() {
         $this->middleware('participa_da_turma');
+        $this->middleware('atividade_da_turma', array(
+            'only' => array(
+                'show'
+            )
+        ));
     }
     
     public function index(Turma $turma) {
