@@ -9,6 +9,7 @@ use App\Horarios;
 use App\Instituicao;
 use App\Nota;
 use App\Turma;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -42,10 +43,12 @@ class TurmaController extends Controller
     }
 
     public function show(Turma $turma) {
-        $turma = Turma::where('id', $turma->id)->with('aulas')->with('anotacoes')->with('atividades')->get()->first();
+        $aulas = $turma->aulas()->where('dia', '>', Carbon::now())->orderBy('dia')->limit(5)->get();
+        $atividades = $turma->atividades()->where('data', '>', Carbon::now())->orderBy('data')->limit(5)->get();
+        $anotacoes = $turma->anotacoes()->orderBy('updated_at', 'desc')->limit(7)->get();
         $minhasFaltas = Ausencia::doUsuarioNaTurma(Auth::user(), $turma);
         $minhasNotas = Nota::doUsuarioNaTurma(Auth::user(), $turma);
-        return view('turma/show', compact('turma', 'minhasFaltas', 'minhasNotas'));
+        return view('turma/show', compact('turma', 'minhasFaltas', 'minhasNotas', 'aulas', 'atividades', 'anotacoes'));
     }
 
     public function find() {
