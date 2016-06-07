@@ -21,12 +21,18 @@ Route::group(['middleware' => ['web']], function() {
 
     Route::auth();
 
+    Route::get('/instituicao/{instituicao}', 'InstituicaoController@show');
+    Route::get('/curso/{curso}', 'CursoController@show');
+    Route::get('/disciplina/{disciplina}', 'DisciplinaController@show');
+
     Route::get('images/{folder}/{filename}', function ($folder, $filename)
     {
         return Image::make(storage_path() . '/images/' . $folder . '/' . $filename)->response();
     });
 
     Route::get('/home', 'HomeController@index');
+
+    Route::get('/notificacoes', 'NotificacaoController@index');
 
     Route::get('/login/{provider?}',[
         'uses' => 'Auth\AuthController@getSocialAuth',
@@ -51,6 +57,7 @@ Route::group(['middleware' => ['web']], function() {
         Route::any('/{turma}/join', 'TurmaController@join');
         Route::get('{turma}/leave', 'TurmaController@leave');
         Route::post('/', 'TurmaController@store');
+        Route::get('/{turma}/colegas', 'TurmaController@classmates');
 
         Route::group(['prefix' => '{turma}/material'], function() {
             Route::get('/', 'MaterialController@index');

@@ -24,8 +24,9 @@ class FaltaController extends Controller
 
     public function store(Turma $turma, Request $request) {
         $aulas_id = $turma->aulas()->select('aulas.id')->get()->pluck('id');
+
         foreach($aulas_id as $id) {
-            if(in_array($id, $request['falta'])) {
+            if($request['falta'] && in_array($id, $request['falta'])) {
                 if(! Ausencia::where(array('aula_id' => $id, 'user_id' => Auth::user()->id))->first()) {
                     $ausencia = new Ausencia;
                     $ausencia->user_id = Auth::user()->id;

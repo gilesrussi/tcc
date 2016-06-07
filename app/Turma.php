@@ -45,4 +45,8 @@ class Turma extends Model
     public function atividades() {
         return $this->hasMany('App\Atividade');
     }
+
+    public function participantes() {
+        return $this->belongsToMany('App\User', 'users_turmas');
+    }
 }

@@ -16,6 +16,9 @@
                             <li class="list-group-item">Não tem mais aulas :D</li>
                         @endforelse
                     </ul>
+                    <div class="panel-footer">
+                        Faltas: {{ $minhasFaltas }} / {{ $turma->aulas()->count() }}
+                    </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -28,6 +31,9 @@
                             <li class="list-group-item">Não há nenhuma atividade marcada :D</li>
                         @endforelse
                     </ul>
+                    <div class="panel-footer">
+                        Minhas notas: {{ $minhasNotas }} / {{ $turma->atividades()->sum('atividades.valor') }}
+                    </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -45,7 +51,7 @@
                                  )) }}
                             </li>
                         @empty
-                            <li class="list-group-item">Não há nenhuma atividade marcada :D</li>
+                            <li class="list-group-item">Não há anotações ):</li>
                         @endforelse
                     </ul>
                 </div>

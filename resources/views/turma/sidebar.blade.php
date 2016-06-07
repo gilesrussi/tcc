@@ -21,6 +21,7 @@
                 <li>{{ link_to_action('MaterialController@index', 'Materiais', array('turma' => $turma->id)) }}</li>
             </ul>
             <ul class="nav nav-sidebar">
+                <li>{{ link_to_action("TurmaController@classmates", "Colegas", array('turma' => $turma->id)) }}</li>
                 <li>{{ link_to_action("TurmaController@leave", 'Sair dessa turma', array('turma' => $turma->id)) }}</li>
             </ul>
         @endcan

@@ -35,7 +35,9 @@ class Aula extends Model
     }
 
     public function getHeaderAttribute($value) {
-        return "Aula do dia " . $this->dia . ", das " . $this->horario_inicio . " às " . $this->horario_fim;
+        $header = "Aula do dia " . $this->dia . ", das " . $this->horario_inicio . " às " . $this->horario_fim;
+        $header .= $this->esta_cancelada() ? " (Cancelada)" : "";
+        return $header;
     }
 
     public function anotacoes() {
@@ -55,6 +57,8 @@ class Aula extends Model
     public function esta_cancelada() {
         return (bool) $this->cancelada;
     }
+
+    
 
 
 }

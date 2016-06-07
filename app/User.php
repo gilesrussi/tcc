@@ -71,6 +71,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Ausencia');
     }
 
+    public function notificacoes() {
+        return $this->belongsToMany('App\Notificacao', 'notificacaos_users')->withPivot('visto')->withTimestamps();
+    }
+
     /**
      * @param $query
      * @param int $search

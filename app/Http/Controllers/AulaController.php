@@ -57,7 +57,7 @@ class AulaController extends Controller
         return redirect()->action('AulaController@show', array('turma' => $turma->id, 'aula' => $aula->id));
     }
 
-    public function cancel(Turma $turma, Aula $aula) {
+    public function cancelar(Turma $turma, Aula $aula) {
         $aula->cancelar();
         return redirect()->back();
     }

@@ -14,7 +14,7 @@ class NotaController extends Controller
 {
     public function __construct() {
         $this->middleware('participa_da_turma');
-        $this->middleware('aula_da_turma', array(
+        $this->middleware('atividade_da_turma', array(
             'except' => array(
                 'index'
             )
