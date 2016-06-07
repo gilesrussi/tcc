@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="header col-md-12">
-        <h2>Turma de {{ $turma->cid->disciplina->nome }}</h2>
+        <h2>Turma de {{ $turma->cid->disciplina->nome }}<br><small><small> ({{ $turma->cid->curso->nome }}, {{ $turma->cid->instituicao->nome }})</small></small></h2>
     </div>
     @include('turma.sidebar')
 

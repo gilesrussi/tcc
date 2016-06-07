@@ -3,8 +3,7 @@
 @section('inner-content')
     @parent
         <div class="main col-md-10">
-            <div class="row">Instituição: {{ $turma->cid->instituicao->nome }}</div>
-            <div class="row">Curso: {{ $turma->cid->curso->nome }}</div>
+
             @can('post', $turma)
                 <div class="panel panel-default">
                     <div class="panel-heading">
