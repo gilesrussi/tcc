@@ -25,6 +25,11 @@ class Notificacao extends Model
         }
     }
 
+    public function paraPessoa(User $user) {
+        $this->save();
+        $this->usuarios()->attach($user->id);
+    }
+
     public function foiVisto() {
         if($this->pivot->visto == false) {
             $this->usuarios()->updateExistingPivot(Auth::user()->id, array('visto' => true));

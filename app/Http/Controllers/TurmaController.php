@@ -8,7 +8,9 @@ use App\Disciplina;
 use App\Horarios;
 use App\Instituicao;
 use App\Nota;
+use App\Notificacao;
 use App\Turma;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -93,5 +95,18 @@ class TurmaController extends Controller
     public function leave(Turma $turma) {
         Auth::user()->leave($turma);
         return redirect()->action('TurmaController@show', $turma);
+    }
+
+    public function invite(Turma $turma) {
+        $amigos = Auth::user()->friends()->get();
+        return view('turma.invite', compact('turma', 'amigos'));
+
+    }
+
+    public function inviteFriend(Turma $turma, User $user) {
+        $notificacao = new Notificacao();
+        $notificacao->mensagem = view('notificacao.templates.convidar_para_turma', array('turma' => $turma, 'sender' => Auth::user()));
+        $notificacao->paraPessoa($user);
+        return redirect()->action('TurmaController@invite', $turma);
     }
 }

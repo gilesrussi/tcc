@@ -58,6 +58,8 @@ Route::group(['middleware' => ['web']], function() {
         Route::get('{turma}/leave', 'TurmaController@leave');
         Route::post('/', 'TurmaController@store');
         Route::get('/{turma}/colegas', 'TurmaController@classmates');
+        Route::get('/{turma}/convidar', 'TurmaController@invite');
+        Route::get('/{turma}/convidar/{user}', 'TurmaController@inviteFriend');
 
         Route::group(['prefix' => '{turma}/material'], function() {
             Route::get('/', 'MaterialController@index');
