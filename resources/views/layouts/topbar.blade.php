@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
 
@@ -19,7 +19,9 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/turma') }}">Turmas</a></li>
+                @if (! Auth::guest())
+                    <li><a href="{{ url('/turma') }}">Turmas</a></li>
+                @endif
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -29,7 +31,8 @@
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Registre-se</a></li>
                 @else
-                    <li><a href="#">{{ Auth::user()->friends()->wherePivot('accepted', 0)->count() }}</a></li>
+                    <li><a href="{{ action('NotificacaoController@index') }}"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span>{{ Auth::user()->notificacoes()->wherePivot('visto', 0)->count() }}</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ Auth::user()->friends()->wherePivot('accepted', 0)->count() }}</a></li>
                     <li class="nav navbar-nav">
 
                     </li>

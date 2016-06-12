@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Notificacao extends Model
 {
@@ -15,6 +16,21 @@ class Notificacao extends Model
     }
 
     public function paraTurma(Turma $turma) {
-        $this->usuarios()->attach($turma->participantes()->get(['users.id']));
+        $idUsers = $turma->participantes()->get();
+
+        $idUsers = $idUsers->diff([Auth::user()]);
+        if($idUsers->count() > 0) {
+            $this->save();
+            $this->usuarios()->attach($idUsers);
+        }
+    }
+
+    public function foiVisto() {
+        if($this->pivot->visto == false) {
+            $this->usuarios()->updateExistingPivot(Auth::user()->id, array('visto' => true));
+            return true;
+        } else {
+            return false;
+        }
     }
 }

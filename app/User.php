@@ -32,6 +32,10 @@ class User extends Authenticatable
         $this->turmas()->attach($turma->id);
     }
 
+    public function leave(Turma $turma) {
+        $this->turmas()->detach($turma->id);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

@@ -29,6 +29,8 @@ class Turma extends Model
         }
         return $q;
     }
+    
+    
 
     public function aulas() {
         return $this->hasMany('App\Aula')->orderBy('dia');

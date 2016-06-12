@@ -43,8 +43,8 @@ class TurmaController extends Controller
     }
 
     public function show(Turma $turma) {
-        $aulas = $turma->aulas()->where('dia', '>', Carbon::now())->orderBy('dia')->limit(5)->get();
-        $atividades = $turma->atividades()->where('data', '>', Carbon::now())->orderBy('data')->limit(5)->get();
+        $aulas = $turma->aulas()->where('dia', '>=', Carbon::now())->orderBy('dia')->limit(5)->get();
+        $atividades = $turma->atividades()->where('data', '>=', Carbon::now())->orderBy('data')->limit(5)->get();
         $anotacoes = $turma->anotacoes()->orderBy('updated_at', 'desc')->limit(7)->get();
         $minhasFaltas = Ausencia::doUsuarioNaTurma(Auth::user(), $turma)->where('aulas.cancelada', 0)->count();
         $minhasNotas = Nota::doUsuarioNaTurma(Auth::user(), $turma)->sum('nota');
@@ -88,5 +88,10 @@ class TurmaController extends Controller
     public function classmates(Turma $turma) {
         $colegas = $turma->participantes()->get();
         return view('turma.classmates', compact('turma', 'colegas'));
+    }
+
+    public function leave(Turma $turma) {
+        Auth::user()->leave($turma);
+        return redirect()->action('TurmaController@show', $turma);
     }
 }

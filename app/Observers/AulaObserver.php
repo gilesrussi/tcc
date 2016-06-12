@@ -8,19 +8,33 @@ use App\Notificacao;
  */
 class AulaObserver
 {
+
     /**
      * Function will be triggerd when a user is updated
      *
      * @param Users $model
      */
-    public function saved($model)
+    public function created($model)
     {
         $notificacao = new Notificacao();
 
-        $notificacao->mensagem = 'Uma ' . link_to_action('AulaController@show', 'nova aula', array('turma' => $model->turma_id, 'aula' => $model->id)) . ' foi adicionada em sua ' . link_to_action('TurmaController@show', 'Turma de ' . $model->turma->cid->disciplina->nome, array('turma' => $model->turma_id)) . ' para ' . $model->header;
-
-        $notificacao->save();
+        $notificacao->mensagem = view('notificacao.templates.nova_aula', array('model' => $model));
 
         $notificacao->paraTurma($model->turma()->get()->first());
+
+
+    }
+
+    public function updated($model) {
+        $original = $model->getOriginal();
+        $notificacao = new Notificacao();
+        if($original['cancelada'] != $model->cancelada) {
+            $notificacao->mensagem = view('notificacao.templates.aula_cancelada', array('model' => $model));
+
+        } else {
+            $notificacao->mensagem = view('notificacao.templates.aula_atualizada', array('model' => $model, 'original' => $original));
+        }
+        $notificacao->paraTurma($model->turma()->get()->first());
+
     }
 }

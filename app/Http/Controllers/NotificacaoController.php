@@ -10,7 +10,8 @@ use Auth;
 class NotificacaoController extends Controller
 {
     public function index() {
-        $notificacoes = Auth::user()->notificacoes()->get();
+        $n = Auth::user()->notificacoes();
+        $notificacoes = $n->get();
         return view('notificacao.index', compact('notificacoes'));
     }
 }
