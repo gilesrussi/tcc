@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ausencia;
 use App\Curso;
+use App\CursoInstituicaoDisciplina;
 use App\Disciplina;
 use App\Horarios;
 use App\Instituicao;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class TurmaController extends Controller
 {
@@ -35,6 +37,49 @@ class TurmaController extends Controller
     }
 
     public function store(Request $request) {
+        $input = $request->input();
+        DB::beginTransaction();
+        if( (int) $input['instituicao'] > 0) {
+            $instituicao = Instituicao::find($input['instituicao']);
+        } else {
+            $instituicao = new Instituicao();
+            $instituicao->nome = $input['instituicao'];
+            $instituicao->save();
+        }
+        if( (int) $input['curso'] > 0) {
+            $curso = Curso::find($input['curso']);
+        } else {
+            $curso = new Curso();
+            $curso->nome = $input['curso'];
+            $curso->save();
+        }
+        if( (int) $input['disciplina'] > 0) {
+            $disciplina = Disciplina::find($input['disciplina']);
+        } else {
+            $disciplina = new Disciplina();
+            $disciplina->nome = $input['disciplina'];
+            $disciplina->save();
+        }
+        $cid = CursoInstituicaoDisciplina::
+              where('instituicao_id', $instituicao->id)
+            ->where('curso_id', $curso->id)
+            ->where('disciplina_id', $disciplina->id)
+            ->get()
+            ->first();
+        if(!$cid) {
+            $cid = new CursoInstituicaoDisciplina();
+            $cid->instituicao_id = $instituicao->id;
+            $cid->curso_id = $curso->id;
+            $cid->disciplina_id = $disciplina->id;
+            $cid->save();
+        }
+
+        $turma = new Turma($request->all());
+        $turma->cid()->associate($cid);
+        $turma->save();
+
+        DB::rollBack();
+        dd($turma);
         return $request->input();
 
     }
@@ -77,13 +122,13 @@ class TurmaController extends Controller
         $turma->instituicao = $request->instituicao;
         $turma->curso = $request->curso;
         $turma->disciplina = $request->disciplina;
-        $horarios = Horarios::orderBy('hora')->get();
+        $dias_semana = array('Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado');
         return view('turma/create', array(
             'instituicoes' => $instituicoes,
             'cursos' => $cursos,
             'disciplinas' => $disciplinas,
             'turma' => $turma,
-            'horarios' => $horarios
+            'dias_semana' => $dias_semana,
         ))->withInput($request);
     }
 

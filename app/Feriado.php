@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Horarios extends Model
+class Feriado extends Model
 {
-    public $timestamps = false;
+    protected $fillable = ['dia'];
 }

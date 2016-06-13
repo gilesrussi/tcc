@@ -2,40 +2,8 @@
 
 @section('content')
 
-    <style>
-        .checkbox-custom {
-            opacity: 0;
-        }
-
-        .checkbox-custom, .checkbox-custom-label {
-            display: inline-block;
-            vertical-align: middle;
-            cursor: pointer;
-        }
-
-        .checkbox-custom + .checkbox-custom-label:before {
-            content: '';
-            background: #fff;
-            border: 1px solid #ddd;
-            display: inline-block;
-            vertical-align: middle;
-            width: 60px;
-            height: 18px;
-            text-align: center;
-        }
-
-        .checkbox-custom:checked + .checkbox-custom-label:before {
-            background: lawngreen;
-        }
-
-        .centerText{
-            text-align: center;
-        }
-
-    </style>
-
     <div id="el" class="container">
-        {{ Form::model($turma, array('url' => '/turma/store')) }}
+        {{ Form::model($turma, array('action' => 'TurmaController@store')) }}
         <div class="form-group">
             {{ Form::label('instituicao', 'Instituição: ') }}
             <select id="instituicao" name="instituicao" v-select="instituicao" class="form-control select2" required>
@@ -82,7 +50,7 @@
         <div class="form-group">
             {{ Form::label('data_inicio', 'Data de início: ', array('required' => 'required')) }}
             <div>
-                {{ Form::date('data_inicio') }}
+                {{ Form::date('data_inicio', null, array('class'=>'form-control')) }}
             </div>
         </div>
 
@@ -92,70 +60,39 @@
 
         <div class="form-group">
             {{ Form::label('data_fim', 'Data de conclusão: ') }}
-            <div>
-                {{ Form::date('data_fim') }}
-            </div>
+
+            {{ Form::date('data_fim', null, array('class'=>'form-control')) }}
+
         </div>
 
         <div class="form-group">
             {{ Form::label('carga_horaria', 'Carga horária da disciplina: ') }}
-            <div>
-                {{ Form::input('carga_horaria', null) }}
+            {{ Form::number('carga_horaria', null, array('class'=>'form-control')) }}
+        </div>
+
+        <div class="horarios_aula">
+            <div class="form-group">
+                <div class="col-md-4">
+                    {{ Form::label('dia[]', 'Dia da aula: ') }}
+                    {{ Form::select('dia[]', $dias_semana, null, array('class' => 'form-control')) }}
+                </div>
+                <div class="col-md-4">
+                    {{ Form::label('horario_inicio[]', 'Horário de início da aula: ') }}
+                    {{ Form::time('horario_inicio[]', null, array('class' => 'form-control')) }}
+                </div>
+                <div class="col-md-4">
+                    {{ Form::label('horario_fim[]', 'Horário de término da aula: ') }}
+                    {{ Form::time('horario_fim[]', null, array('class' => 'form-control')) }}
+                </div>
             </div>
+        </div>
+        <div class="form-group">
+            {{ Form::button('Adicionar mais uma aula por semana', array('class' => 'form-control btn btn-info'))  }}
         </div>
 
         <div class="form-group">
-            {{ Form::label('horarios', 'Horários: ') }}
-            <table>
-                <tr>
-                    <th>
-
-                    </th>
-                    <th class="centerText">
-                        Domingo
-                    </th>
-                    <th class="centerText">
-                        Segunda
-                    </th>
-                    <th class="centerText">
-                        Terça
-                    </th>
-                    <th class="centerText">
-                        Quarta
-                    </th>
-                    <th class="centerText">
-                        Quinta
-                    </th>
-                    <th class="centerText">
-                        Sexta
-                    </th>
-                    <th class="centerText">
-                        Sábado
-                    </th>
-                </tr>
-
-                {{--*/ $odd = true /*--}}
-                @foreach($horarios->groupBy('hora') as $hora => $dias)
-                    <tr{{ ($odd) ? " class='odd'" : "" }}>
-                        <th class="centerText">
-                            {{ $hora }}
-                        </th>
-                        @foreach($dias->sortBy('dia') as $dia)
-                            <td class="centerText">
-                            <input id="checkbox-{{ $dia->id }}" class="checkbox-custom" name="checkbox[]" type="checkbox" value="{{ $dia->id }}">
-                            <label for="checkbox-{{ $dia->id }}" class="checkbox-custom-label"></label>
-                            </td>
-                        @endforeach
-                    </tr>
-                    {{--*/ $odd =! $odd  /*--}}
-                @endforeach
-
-            </table>
+            {{ Form::submit('Criar turma', ['class' => 'form-control btn btn-primary']) }}
         </div>
-
-
-        {{ Form::submit('Criar turma', ['class' => 'form-control btn btn-primary']) }}
-
         {{ Form::close() }}
 
 
@@ -167,6 +104,22 @@
 
 @section('footer')
     <script type="text/javascript">
+        $(document).ready(function() {
+            var max_fields      = 10; //maximum input boxes allowed
+            var wrapper         = $(".horarios_aula"); //Fields wrapper
+            var add_button      = $(".btn-info"); //Add button ID
+
+            var x = 1; //initlal text box count
+            $(add_button).click(function(e){ //on add input button click
+                e.preventDefault();
+                if(x < max_fields){ //max input box allowed
+                    x++; //text box increment
+                    $(wrapper).append('<div class="form-group"><div class="col-md-4">{{ Form::label('dia[]', 'Dia da aula: ') }}{{ Form::select('dia[]', $dias_semana, null, array('class' => 'form-control')) }}</div> <div class="col-md-4">{{ Form::label('horario_inicio[]', 'Horário de início da aula: ') }}{{ Form::time('horario_inicio[]', null, array('class' => 'form-control')) }}</div> <div class="col-md-4">{{ Form::label('horario_fim[]', 'Horário de término da aula: ') }}{{ Form::time('horario_fim[]', null, array('class' => 'form-control')) }}</div> </div>'); //add input box
+                }
+            });
+        });
+
+
         var vm = new Vue({
             el: '#el',
             directives: {
