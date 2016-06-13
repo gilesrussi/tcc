@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Aula extends Model
 {
-    protected $fillable = ['dia', 'horario_inicio', 'horario_fim', 'descricao'];
+    protected $fillable = ['dia', 'horario_inicio', 'horario_fim', 'descricao', 'turma_id'];
 
     protected $dates = ['created_at', 'updated_at', 'dia'];
 
