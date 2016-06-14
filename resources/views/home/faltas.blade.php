@@ -2,7 +2,19 @@
 
 @section('inner-content')
     <h2>Minhas faltas</h2>
-    <ul class="list-group">
-
-    </ul>
+    @forelse($turmas as $turma)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ link_to_action('TurmaController@show', $turma->cid->disciplina->nome, array('turma' => $turma->id)) }}
+            </div>
+            <div class="panel-body">
+                Faltas:
+                {{ $turma->aulas->filter(function ($aula) { return (bool)$aula->ausencias->count(); })->count() }}
+                /
+                {{ $turma->aulas->count() }}
+            </div>
+        </div>
+    @empty
+        Você não está em nenhuma turma ):
+    @endforelse
 @endsection

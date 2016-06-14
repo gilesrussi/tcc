@@ -15,13 +15,13 @@ class AnotacaoObserver
      *
      * @param Users $model
      */
-    public function created($model)
+    public function created(Anotacao $model)
     {
         $notificacao = new Notificacao();
         if($model->publico == 1) {
             $notificacao->mensagem = view('notificacao.templates.nova_anotacao', array('model' => $model));
 
-            $notificacao->paraTurma($model->turma()->get()->first());
+            $notificacao->paraTurma($model->aula->turma);
         }
 
     }
@@ -36,7 +36,7 @@ class AnotacaoObserver
             } else {
                 $notificacao->mensagem = view('notificacao.templates.anotacao_atualizada', array('model' => $model, 'original' => $original));
             }
-            $notificacao->paraTurma($model->turma()->get()->first());
+            $notificacao->paraTurma($model->aula->turma);
         }
 
 

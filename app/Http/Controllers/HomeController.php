@@ -59,7 +59,15 @@ class HomeController extends Controller
     }
 
     public function faltas() {
-        return view('home.faltas');
+        $turmas = Auth::user()
+            ->turmas()
+            ->with(array('aulas' => function($query) {
+                $query->with(array('ausencias' => function($query) {
+                    $query->where('user_id', Auth::user()->id);
+                }));
+            }), 'cid.disciplina')
+            ->get();
+        return view('home.faltas', compact('turmas'));
     }
 
     public function notas() {

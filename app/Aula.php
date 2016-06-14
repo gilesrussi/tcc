@@ -44,6 +44,10 @@ class Aula extends Model
         return $this->hasMany('App\Anotacao');
     }
 
+    public function ausencias() {
+        return $this->hasMany('App\Ausencia');
+    }
+
     public function cancelar() {
         $this->cancelada = 1;
         $this->save();
