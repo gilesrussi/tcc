@@ -8,7 +8,6 @@ use App\Curso;
 use App\CursoInstituicaoDisciplina;
 use App\Disciplina;
 use App\Feriado;
-use App\Horarios;
 use App\Instituicao;
 use App\Nota;
 use App\Notificacao;

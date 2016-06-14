@@ -38,6 +38,9 @@ class NotaController extends Controller
 
     public function edit(Turma $turma, Atividade $atividade) {
         $nota = Nota::notaDoUsuario($atividade, Auth::user())->get()->first();
+        if($nota == null) {
+            return redirect()->action('NotaController@create', array('turma' => $turma->id, 'atividade' => $atividade->id));
+        }
         return view('nota.edit', compact('turma', 'atividade', 'nota'));
     }
 

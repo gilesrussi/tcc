@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Aula extends Model
@@ -62,7 +63,15 @@ class Aula extends Model
         return (bool) $this->cancelada;
     }
 
-    
+    public function scopeDoUsuario(Builder $query, User $user, Carbon $de = null, Carbon $ate = null) {
+        $query = $de ? $query->where('aulas.dia', '>=', $de) : $query;
+        $query = $ate ? $query->where('aulas.dia', '<=', $ate) : $query;
+
+        return $query
+            ->join('turmas', 'aulas.turma_id', '=', 'turmas.id')
+            ->join('users_turmas', 'turmas.id', '=', 'users_turmas.turma_id')
+            ->where('users_turmas.user_id', '=', $user->id);
+    }
 
 
 }
