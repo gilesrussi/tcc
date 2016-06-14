@@ -13,12 +13,14 @@ use App\Http\Requests;
 
 class MaterialController extends Controller
 {
-    public function __contruct() {
+    public function __construct() {
+        $this->middleware('auth');
         $this->middleware('participa_da_turma', array(
             'except' => array(
                 'show'
             )
         ));
+
     }
 
     public function index(Turma $turma) {

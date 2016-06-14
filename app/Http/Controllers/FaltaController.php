@@ -13,6 +13,7 @@ use Mockery\CountValidator\Exception;
 class FaltaController extends Controller
 {
     public function __construct() {
+        $this->middleware('auth');
         $this->middleware('participa_da_turma');
     }
 

@@ -13,6 +13,7 @@ use Auth;
 class NotaController extends Controller
 {
     public function __construct() {
+        $this->middleware('auth');
         $this->middleware('participa_da_turma');
         $this->middleware('atividade_da_turma', array(
             'except' => array(
