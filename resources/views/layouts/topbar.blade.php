@@ -31,8 +31,8 @@
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Registre-se</a></li>
                 @else
-                    <li><a href="{{ action('NotificacaoController@index') }}"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span>{{ Auth::user()->notificacoes()->wherePivot('visto', 0)->count() }}</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ Auth::user()->friends()->wherePivot('accepted', 0)->count() }}</a></li>
+                    <li><a href="{{ action('HomeController@notificacoes') }}"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span>{{ Auth::user()->notificacoes()->wherePivot('visto', 0)->count() }}</a></li>
+                    <li><a href="{{ action('HomeController@pedidos_amizade') }}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ Auth::user()->friends()->wherePivot('accepted', 0)->count() }}</a></li>
                     <li class="nav navbar-nav">
 
                     </li>

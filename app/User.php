@@ -36,13 +36,7 @@ class User extends Authenticatable
         $this->turmas()->detach($turma->id);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function friends()
-    {
-        return $this->belongsToMany('App\User', 'friends', 'user_id', 'friend_of')->withPivot('accepted')->withTimestamps();
-    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -79,6 +73,15 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Notificacao', 'notificacaos_users')->withPivot('visto')->withTimestamps();
     }
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function friends()
+    {
+        return $this->belongsToMany('App\User', 'friends', 'user_id', 'friend_of')->withPivot('accepted')->withTimestamps();
+    }
+
     /**
      * @param $query
      * @param int $search
@@ -89,6 +92,16 @@ class User extends Authenticatable
         $query->whereHas('friends', function ($q) use ($search, $pivot) {
             $q->where("{$pivot}.accepted", $search)
               ->where("{$pivot}.friend_of", $this->id);
+        });
+
+    }
+
+    public function scopeFriendRequestsRecieved($query, $accepted = 0) {
+        $pivot = $this->friends()->getTable();
+
+        $query->whereHas('friends', function ($q) use ($accepted, $pivot) {
+            $q->where("{$pivot}.accepted", $accepted)
+                ->where("{$pivot}.friend_of", $this->id);
         });
 
     }

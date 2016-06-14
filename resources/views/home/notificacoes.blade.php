@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('home.layout')
 
-@section('content')
+@section('inner-content')
     <h2>Notificações</h2>
     <ul class="list-group">
         @foreach($notificacoes as $notificacao)

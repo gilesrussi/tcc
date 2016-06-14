@@ -161,7 +161,7 @@ class TurmaController extends Controller
     }
 
     public function invite(Turma $turma) {
-        $amigos = Auth::user()->friends()->get();
+        $amigos = Auth::user()->trueFriends()->get();
         return view('turma.invite', compact('turma', 'amigos'));
 
     }

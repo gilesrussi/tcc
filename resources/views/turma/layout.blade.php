@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    - Turmas @yield('title')
+    - Turmas
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
     </div>
     @include('turma.sidebar')
 
-    <div class="col-md-7">
+    <div class="col-md-8">
         @yield('inner-content')
     </div>
 

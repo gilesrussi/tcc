@@ -11,14 +11,6 @@
 |
 */
 Route::group(['middleware' => ['web']], function() {
-    Route::get('/', function () {
-        if(Auth::guest()) {
-            return view('welcome');
-        } else {
-            return redirect()->action('HomeController@index');
-        }
-    });
-
     Route::auth();
 
     Route::get('/instituicao/{instituicao}', 'InstituicaoController@show');
@@ -30,9 +22,14 @@ Route::group(['middleware' => ['web']], function() {
         return Image::make(storage_path() . '/images/' . $folder . '/' . $filename)->response();
     });
 
-    Route::get('/home', 'HomeController@index');
+    Route::get('/', 'HomeController@index');
 
-    Route::get('/notificacoes', 'NotificacaoController@index');
+    Route::get('/notificacoes', 'HomeController@notificacoes');
+    Route::get('/pedidos_amizade', 'HomeController@pedidos_amizade');
+    Route::get('/calendario', 'HomeController@calendario');
+    Route::get('/anotacoes', 'HomeController@anotacoes');
+    Route::get('/faltas', 'HomeController@faltas');
+    Route::get('/notas', 'HomeController@notas');
 
     Route::get('/login/{provider?}',[
         'uses' => 'Auth\AuthController@getSocialAuth',

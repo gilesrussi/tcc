@@ -1,4 +1,4 @@
-<div class="col-sm-3 col-md-2 sidebar">
+<div class="col-md-2 sidebar">
     <div class="row">
         @can('join', $turma)
             <ul class="nav nab-sidebar">

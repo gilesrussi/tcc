@@ -34,7 +34,7 @@ class AtividadeController extends Controller
 
     public function create(Turma $turma) {
         $tipo_atividade = TipoAtividade::lists('nome', 'id');
-        return view('Atividade.create', array(
+        return view('atividade.create', array(
             'turma' => $turma,
             'tipo_atividade' => $tipo_atividade
         ));
