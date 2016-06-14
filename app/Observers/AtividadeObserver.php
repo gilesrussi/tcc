@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Observers;
+use App\Atividade;
 use App\Notificacao;
 
 /**
@@ -12,7 +13,7 @@ class AtividadeObserver
     /**
      * Function will be triggerd when a user is updated
      *
-     * @param Users $model
+     * @param Atividade $model
      */
     public function created($model)
     {

@@ -73,6 +73,14 @@ class HomeController extends Controller
     }
 
     public function notas() {
-        return view('home.notas');
+        $turmas = Auth::user()
+            ->turmas()
+            ->with(array('atividades' => function($query) {
+                $query->with(array('notas' => function($query) {
+                    $query->where('user_id', Auth::user()->id);
+                }));
+            }), 'cid.disciplina')
+            ->get();
+        return view('home.notas', compact('turmas'));
     }
 }

@@ -11,7 +11,7 @@
                 Faltas:
                 {{ $turma->aulas->filter(function ($aula) { return (bool)$aula->ausencias->count(); })->count() }}
                 /
-                {{ $turma->aulas->count() }}
+                {{ $turma->aulas->count() }} ({{ link_to_action('FaltaController@index', 'Clique aqui para editar', array('turma' => $turma->id)) }})
             </div>
         </div>
     @empty
