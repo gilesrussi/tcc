@@ -2,7 +2,10 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Atividade extends Model
 {
@@ -36,5 +39,17 @@ class Atividade extends Model
 
     public function getHeaderAttribute($value) {
         return $this->tipo_atividade()->get()->first()->nome . " do dia " . $this->data;
+    }
+
+    public function scopeDoUsuario(Builder $query, User $user, Carbon $de = null, Carbon $ate = null) {
+        $query = $de ? $query->where('atividades.data', '>=', $de) : $query;
+        $query = $ate ? $query->where('atividades.data', '<', $ate->addDay()) : $query;
+
+        return $query
+            ->select(DB::raw('date(atividades.data) as dia'), DB::raw('time(atividades.data) as horario_inicio'), 'atividades.cancelada', 'atividades.turma_id')
+            ->join('turmas', 'atividades.turma_id', '=', 'turmas.id')
+            ->join('users_turmas', 'turmas.id', '=', 'users_turmas.turma_id')
+            ->where('users_turmas.user_id', '=', $user->id)
+            ->orderBy('atividades.data');
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Atividade;
 use App\Aula;
 use App\Http\Requests;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Auth;
 use Carbon\Carbon;
@@ -48,9 +50,9 @@ class HomeController extends Controller
     public function calendario() {
         $de = new Carbon('last sunday');
         $ate = new Carbon('next saturday');
-        $aulas = Aula::doUsuario(Auth::user(), $de, $ate)->get();
-        dd($aulas);
-        return view('home.calendario');
+        $aulas = Aula::doUsuario(Auth::user(), $de, $ate)->with('turma.cid.disciplina')->get()->groupBy('dia');
+        $atividades = Atividade::doUsuario(Auth::user(), $de, $ate)->with('turma.cid.disciplina')->get();
+        return view('home.calendario', compact('aulas', 'atividades', 'de'));
     }
 
     public function anotacoes() {
