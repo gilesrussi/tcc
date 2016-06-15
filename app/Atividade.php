@@ -46,7 +46,7 @@ class Atividade extends Model
         $query = $ate ? $query->where('atividades.data', '<', $ate->addDay()) : $query;
 
         return $query
-            ->select(DB::raw('date(atividades.data) as dia'), DB::raw('time(atividades.data) as horario_inicio'), 'atividades.cancelada', 'atividades.turma_id')
+            ->select(DB::raw('date(atividades.data) as dia'), DB::raw('DATE_FORMAT(atividades.data, \'%h:%m\') as `horario_inicio`'), 'atividades.cancelada', 'atividades.turma_id', 'atividades.id', 'atividades.tipo_atividade_id')
             ->join('turmas', 'atividades.turma_id', '=', 'turmas.id')
             ->join('users_turmas', 'turmas.id', '=', 'users_turmas.turma_id')
             ->where('users_turmas.user_id', '=', $user->id)

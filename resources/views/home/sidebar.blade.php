@@ -9,7 +9,7 @@
         <ul class="nav nav-sidebar">
             <li>{{ link_to_action('HomeController@notificacoes', 'Notificações') }}</li>
             <li>{{ link_to_action('HomeController@pedidos_amizade', 'Pedidos de amizade') }}</li>
-            <li>{{ link_to_action('HomeController@calendario', 'Meu calendário') }}</li>
+            <li>{{ link_to_action('HomeController@calendario', 'Meu calendário', array('semana' => 0)) }}</li>
         </ul>
 
         Minhas Turmas

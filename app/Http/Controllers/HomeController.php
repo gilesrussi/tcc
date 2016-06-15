@@ -47,12 +47,15 @@ class HomeController extends Controller
         return view('home.pedidos_amizade', compact('pedidos_amizade'));
     }
 
-    public function calendario() {
+    public function calendario($semana = 0) {
         $de = new Carbon('last sunday');
         $ate = new Carbon('next saturday');
+        $de->addWeek($semana);
+        $ate->addWeek($semana);
         $aulas = Aula::doUsuario(Auth::user(), $de, $ate)->with('turma.cid.disciplina')->get()->groupBy('dia');
-        $atividades = Atividade::doUsuario(Auth::user(), $de, $ate)->with('turma.cid.disciplina')->get();
-        return view('home.calendario', compact('aulas', 'atividades', 'de'));
+        $atividades = Atividade::doUsuario(Auth::user(), $de, $ate)->with('turma.cid.disciplina', 'tipo_atividade')->get()->groupBy('dia');
+
+        return view('home.calendario', compact('aulas', 'atividades', 'de', 'semana'));
     }
 
     public function anotacoes() {

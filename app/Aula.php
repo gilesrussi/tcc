@@ -68,7 +68,7 @@ class Aula extends Model
         $query = $ate ? $query->where('aulas.dia', '<=', $ate) : $query;
 
         return $query
-            ->select('aulas.dia', 'aulas.horario_inicio', 'aulas.cancelada')
+            ->select('aulas.id', 'aulas.dia', 'aulas.horario_inicio', 'aulas.horario_fim', 'aulas.cancelada', 'aulas.turma_id')
             ->join('turmas', 'aulas.turma_id', '=', 'turmas.id')
             ->join('users_turmas', 'turmas.id', '=', 'users_turmas.turma_id')
             ->where('users_turmas.user_id', '=', $user->id)

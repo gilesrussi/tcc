@@ -27,6 +27,8 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('/notificacoes', 'HomeController@notificacoes');
     Route::get('/pedidos_amizade', 'HomeController@pedidos_amizade');
     Route::get('/calendario', 'HomeController@calendario');
+    Route::get('/calendario/semana/{semana}', 'HomeController@calendario');
+
     Route::get('/anotacoes', 'HomeController@anotacoes');
     Route::get('/faltas', 'HomeController@faltas');
     Route::get('/notas', 'HomeController@notas');
