@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class User
@@ -176,5 +178,43 @@ class User extends Authenticatable
     public function breakFriendship(User $user) {
         $this->friends()->detach($user->id);
         $user->friends()->detach($this->id);
+    }
+
+    public function scopeTurmaNotasFaltas(Builder $query) {
+        return $query
+            ->select(
+                'disciplinas.nome',
+                'turmas.id'
+                //DB::raw('SUM(atividades.valor) as valor'),
+                //DB::raw('SUM(notas.nota) as nota'),
+                //DB::raw('COUNT(aulas.id) as aulas'),
+                //DB::raw('COUNT(ausencias.id) as faltas')
+            )
+            ->join('users_turmas', 'users.id', '=', 'users_turmas.user_id')
+            ->join('turmas', 'turmas.id', '=', 'users_turmas.turma_id')
+            ->leftjoin('aulas', 'turmas.id', '=', 'aulas.turma_id')
+            ->leftjoin('ausencias', 'ausencias.aula_id', '=', 'aulas.id')
+            ->leftjoin('atividades', 'atividades.turma_id', '=', 'turmas.id')
+            ->leftjoin('notas', 'notas.atividade_id', '=', 'atividades.id')
+            ->join('curso_instituicao_disciplinas', 'curso_instituicao_disciplinas.id', '=', 'turmas.instituicao_curso_disciplina_id')
+            ->join('disciplinas', 'disciplinas.id', '=', 'curso_instituicao_disciplinas.disciplina_id')
+            ->where('users.id', '=', $this->id)
+            ->where(function ($query) {
+                return $query->where('notas.user_id', '=', $this->id)
+                    ->orWhere('notas.user_id', '=', null);
+            })
+            ->where(function ($query) {
+                return $query->where('ausencias.user_id', '=', $this->id)
+                    ->orWhere('ausencias.user_id', '=', null);
+            })
+            ->where(function ($query) {
+                return $query->where('aulas.cancelada', '=', 0)
+                    ->orWhere('aulas.cancelada', '=', null);
+            })
+            ->where(function ($query) {
+                return $query->where('atividades.cancelada', '=', '0')
+                    ->orWhere('atividades.cancelada', '=', null);
+            })
+            ->groupBy('turmas.id');
     }
 }

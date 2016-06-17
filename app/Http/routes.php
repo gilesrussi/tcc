@@ -105,7 +105,7 @@ Route::group(['middleware' => ['web']], function() {
                 Route::get('/edit', 'AnotacaoController@edit');
                 Route::patch('/', 'AnotacaoController@update');
                 Route::put('/', 'AnotacaoController@update');
-                Route::get('/{anotacao}/show', 'AnotacaoController@show');
+                Route::get('/{anotacao}', 'AnotacaoController@show');
             });
 
         });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Anotacao;
 use App\Atividade;
 use App\Aula;
 use App\Http\Requests;
@@ -34,7 +35,12 @@ class HomeController extends Controller
         if(Auth::guest()) {
             return view('welcome');
         }
-        return view('home.index');
+        $hoje = new Carbon('today');
+        $aulas = Aula::doUsuario(Auth::user(), $hoje)->with('turma.cid.disciplina')->limit(6)->get();
+        $atividades = Atividade::doUsuario(Auth::user(), $hoje)->with('turma.cid.disciplina')->limit(6)->get();
+        $anotacoes = Anotacao::dasTurmasDoUsuario(Auth::user())->with('aula.turma.cid.disciplina')->limit(6)->get();
+        $resumo = Auth::user()->turmaNotasFaltas()->get();
+        return view('home.index', compact('aulas',  'atividades', 'anotacoes', 'resumo'));
     }
 
     public function notificacoes() {

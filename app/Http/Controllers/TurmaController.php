@@ -31,7 +31,7 @@ class TurmaController extends Controller
 
 
     public function index() {
-        $minhasTurmas = Auth::user()->turmas()->get();
+        $minhasTurmas = Auth::user()->turmas()->with('cid.disciplina')->get();
         return view('turma/index', array(
             'minhasTurmas' => $minhasTurmas
         ));
@@ -107,7 +107,7 @@ class TurmaController extends Controller
     }
 
     public function show(Turma $turma) {
-        $aulas = $turma->aulas()->where('dia', '>=', Carbon::now())->orderBy('dia')->limit(5)->get();
+        $aulas = $turma->aulas()->where('dia', '>=', new Carbon('today'))->orderBy('dia')->limit(5)->get();
         $atividades = $turma->atividades()->where('data', '>=', Carbon::now())->orderBy('data')->limit(5)->get();
         $anotacoes = $turma->anotacoes()->orderBy('updated_at', 'desc')->limit(7)->get();
         $minhasFaltas = Ausencia::doUsuarioNaTurma(Auth::user(), $turma)->where('aulas.cancelada', 0)->count();

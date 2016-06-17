@@ -72,7 +72,7 @@ class Aula extends Model
             ->join('turmas', 'aulas.turma_id', '=', 'turmas.id')
             ->join('users_turmas', 'turmas.id', '=', 'users_turmas.turma_id')
             ->where('users_turmas.user_id', '=', $user->id)
-            ->orderBy('aulas.dia', 'aulas.horario_inicio');
+            ->orderBy('aulas.dia', 'desc');
     }
 
 

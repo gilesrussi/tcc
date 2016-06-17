@@ -45,4 +45,16 @@ class Anotacao extends Model
             ->where('user_id', '=', $user->id);
 
     }
+
+    public function scopeDasTurmasDoUsuario(Builder $query, User $user) {
+        return $query
+            ->select('anotacoes.updated_at', 'users.name', 'anotacoes.aula_id', 'anotacoes.id')
+            ->join('aulas', 'aulas.id', '=', 'anotacoes.aula_id')
+            ->join('turmas', 'aulas.turma_id', '=', 'turmas.id')
+            ->join('users_turmas', 'turmas.id', '=', 'users_turmas.turma_id')
+            ->join('users', 'users.id', '=', 'anotacoes.user_id')
+            ->where('users_turmas.user_id', '=', $user->id)
+            ->where('anotacoes.publico', '=', '1')
+            ->orderBy('anotacoes.updated_at');
+    }
 }
