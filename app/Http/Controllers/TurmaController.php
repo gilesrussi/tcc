@@ -107,6 +107,7 @@ class TurmaController extends Controller
                 $temp_data_inicio = $temp_data_inicio->addWeek();
             }
         }
+        Auth::user()->join($turma);
         return redirect()->action('TurmaController@show', $turma);
 
     }

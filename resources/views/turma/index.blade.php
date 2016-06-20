@@ -1,7 +1,7 @@
 @extends('home.layout')
 
 @section('inner-content')
-<div class="container">
+
     <h2>Minhas turmas</h2>
     <ul class="nav list-group">
     @foreach($minhasTurmas as $turma)
@@ -9,5 +9,5 @@
     @endforeach
     </ul>
     <a href="turma/find">Entrar em outra turma</a>
-</div>
+
 @endsection
