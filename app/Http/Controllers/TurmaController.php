@@ -84,6 +84,7 @@ class TurmaController extends Controller
             if($carga_horaria == 0) {
                 $carga_horaria = 500;
             }
+            $carga_horaria = min($carga_horaria, 500);
             if($data_inicio->gt($data_fim)) {
                 $data_fim->addYear();
             }
