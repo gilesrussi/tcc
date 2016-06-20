@@ -1,7 +1,8 @@
-@extends('layouts.app')
+@extends('home.layout')
 
-@section('content')
+@section('inner-content')
 <div id="el" class="container">
+    <h3>Entrar em uma turma</h3>
     {{ Form::open(array('url' => '/turma/create')) }}
 
         <div class="form-group">
@@ -42,7 +43,7 @@
             <li class="list-group-item" v-for="turma in list">
                 <a href="{{ url('turma') }}/@{{ turma.id }}">@{{ turma.id }} - @{{ turma.instituicao }} - @{{ turma.curso }} - @{{ turma.disciplina }}</a>
             </li>
-            <li class="list-group-item">{{ Form::submit('Sua turma não existe ainda? Clique aqui para criá-la!', ['class' => 'btn-primary']) }}</li>
+            <li class="list-group-item">{{ Form::submit('Sua turma não existe ainda? Clique aqui para criá-la!', ['class' => 'btn btn-primary']) }}</li>
         </ul>
     </template>
 </div>

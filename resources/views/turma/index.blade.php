@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('home.layout')
 
-@section('content')
+@section('inner-content')
 <div class="container">
     <h2>Minhas turmas</h2>
     <ul class="nav list-group">

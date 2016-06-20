@@ -77,25 +77,34 @@ class TurmaController extends Controller
         $turma = new Turma($request->all());
         $turma->cid()->associate($cid);
         $turma->save();
-        $carga_horaria = $input['carga_horaria'];
+        $carga_horaria = (int) $input['carga_horaria'];
         $data_inicio = Carbon::parse($input['data_inicio']);
-        $dia_semana_inicio = $data_inicio->dayOfWeek;
-        $temp_data_inicio = $data_inicio->subDays($dia_semana_inicio);
-        while($carga_horaria > 0) {
-            for ($i = 0; $i < sizeof($input['dia']); $i++) {
-                echo $temp_data_inicio . '<br>';
-                if($temp_data_inicio->addDays($input['dia'][$i]) >= $data_inicio) {
-                    if(Feriado::nao_eh_feriado($temp_data_inicio)) {
-                        $aula = Aula::create(array('dia' => $temp_data_inicio, 'horario_inicio' => $input['horario_inicio'][$i], 'horario_fim' => $input['horario_fim'][$i], 'turma_id' => $turma->id));
-                        $aula->save();
-                        $tempo = Carbon::parse($input['horario_fim'][$i])->diffInMinutes(Carbon::parse($input['horario_inicio'][$i])) / 60;
-                        $carga_horaria -= $tempo;
-                    }
-                }
-                $temp_data_inicio->subDays($input['dia'][$i]);
-
+        $data_fim = Carbon::parse($input['data_fim']);
+        if($carga_horaria > 0 || $data_inicio->lt($data_fim)) {
+            if($carga_horaria == 0) {
+                $carga_horaria = 500;
             }
-            $temp_data_inicio = $temp_data_inicio->addWeek();
+            if($data_inicio->gt($data_fim)) {
+                $data_fim->addYear();
+            }
+            $dia_semana_inicio = $data_inicio->dayOfWeek;
+            $temp_data_inicio = $data_inicio->subDays($dia_semana_inicio);
+            while ($carga_horaria > 0 && $temp_data_inicio->lt($data_fim)) {
+                for ($i = 0; $i < sizeof($input['dia']); $i++) {
+                    echo $temp_data_inicio . '<br>';
+                    if ($temp_data_inicio->addDays($input['dia'][$i]) >= $data_inicio) {
+                        if (Feriado::nao_eh_feriado($temp_data_inicio)) {
+                            $aula = Aula::create(array('dia' => $temp_data_inicio, 'horario_inicio' => $input['horario_inicio'][$i], 'horario_fim' => $input['horario_fim'][$i], 'turma_id' => $turma->id));
+                            $aula->save();
+                            $tempo = Carbon::parse($input['horario_fim'][$i])->diffInMinutes(Carbon::parse($input['horario_inicio'][$i])) / 60;
+                            $carga_horaria -= $tempo;
+                        }
+                    }
+                    $temp_data_inicio->subDays($input['dia'][$i]);
+
+                }
+                $temp_data_inicio = $temp_data_inicio->addWeek();
+            }
         }
         return redirect()->action('TurmaController@show', $turma);
 
