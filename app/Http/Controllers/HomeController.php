@@ -6,6 +6,7 @@ use App\Anotacao;
 use App\Atividade;
 use App\Aula;
 use App\Http\Requests;
+use App\Turma;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Auth;
@@ -39,8 +40,8 @@ class HomeController extends Controller
         $aulas = Aula::doUsuario(Auth::user(), $hoje)->with('turma.cid.disciplina')->limit(6)->get();
         $atividades = Atividade::doUsuario(Auth::user(), $hoje)->with('turma.cid.disciplina')->limit(6)->get();
         $anotacoes = Anotacao::dasTurmasDoUsuario(Auth::user())->with('aula.turma.cid.disciplina')->limit(6)->get();
-        $resumo = Auth::user()->turmaNotasFaltas()->get();
-        return view('home.index', compact('aulas',  'atividades', 'anotacoes', 'resumo'));
+        //$resumo = Auth::user()->turmaNotasFaltas()->get();
+        return view('home.index', compact('aulas',  'atividades', 'anotacoes'));
     }
 
     public function notificacoes() {

@@ -62,11 +62,30 @@ class ProfileController extends Controller
     }
 
     public function edit() {
-        return Auth::user();
+        return view('profile.edit');
     }
 
     public function update(Request $request) {
-        return $request;
+        $user = Auth::user();
+        // getting all of the post data
+        $file = array('avatar' => $request->file('avatar'));
+
+        // vendo se é válido
+        if ($file['avatar']->isValid()) {
+            $destinationPath = 'images/profile'; // upload path
+            $extension = $file['avatar']->getClientOriginalExtension(); // getting image extension
+            $fileName = rand(1000000,9999999).'.'.$extension; // renameing image
+            $file['avatar']->move(storage_path($destinationPath), $fileName); // uploading file to given path
+            $user->avatar = 'images/profile/' . $fileName;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+        }
+        else {
+            dd();
+            return false;
+        }
+        return redirect()->action('ProfileController@show', $user->id);
     }
 
     public function dealWithFriendship(Request $request) {

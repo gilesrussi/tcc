@@ -72,7 +72,7 @@ class User extends Authenticatable
     }
 
     public function notificacoes() {
-        return $this->belongsToMany('App\Notificacao', 'notificacaos_users')->withPivot('visto')->withTimestamps();
+        return $this->belongsToMany('App\Notificacao', 'notificacaos_users')->withPivot('visto')->withTimestamps()->orderBy('notificacaos_users.id', 'desc');
     }
 
 
@@ -184,11 +184,11 @@ class User extends Authenticatable
         return $query
             ->select(
                 'disciplinas.nome',
-                'turmas.id'
-                //DB::raw('SUM(atividades.valor) as valor'),
-                //DB::raw('SUM(notas.nota) as nota'),
-                //DB::raw('COUNT(aulas.id) as aulas'),
-                //DB::raw('COUNT(ausencias.id) as faltas')
+                'turmas.id',
+                DB::raw('SUM(atividades.valor) as valor'),
+                DB::raw('SUM(notas.nota) as nota'),
+                DB::raw('COUNT(aulas.id) as aulas'),
+                DB::raw('COUNT(ausencias.id) as faltas')
             )
             ->join('users_turmas', 'users.id', '=', 'users_turmas.user_id')
             ->join('turmas', 'turmas.id', '=', 'users_turmas.turma_id')

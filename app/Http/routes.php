@@ -121,6 +121,7 @@ Route::group(['middleware' => ['web']], function() {
         Route::get('/{user}', 'ProfileController@show');
         Route::post('/{user}', 'ProfileController@dealWithFriendship');
         Route::patch('/', 'ProfileController@update');
+        Route::put('/', 'ProfileController@update');
     });
 });
 

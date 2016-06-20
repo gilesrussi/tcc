@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Turma extends Model
 {
@@ -50,5 +52,29 @@ class Turma extends Model
 
     public function participantes() {
         return $this->belongsToMany('App\User', 'users_turmas');
+    }
+
+    public function scopeDaDisciplina($query, Disciplina $disciplina) {
+        return $query->whereHas('cid.disciplina', function($query) use($disciplina) {
+            return $query->where('id', '=', $disciplina->id);
+        });
+    }
+
+    public function scopeNotasFaltas(Builder $query, User $user) {
+        return $query
+            ->select('turmas.id')
+            ->join('users_turmas', 'users_turmas.turma_id', '=', 'turmas.id')
+            ->where('users_turmas.user_id', '=', $user->id)
+            ->with(array('aulas' => function($query) use($user) {
+                return $query
+                    ->with(array(
+                        'ausencias' =>
+                            function($query) use($user) {
+                                return $query->where('user_id', '=', $user->id);
+                            }
+                        )
+                    );
+            }));
+
     }
 }

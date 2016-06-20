@@ -35,10 +35,12 @@
             {{ link_to_action('HomeController@calendario', 'Ver mais', array('semana' => 0)) }}
         </div>
     </div>
+    {{--
     <div class="panel panel-default">
         <div class="panel-heading">
             Resumo
         </div>
+
         <table class="table">
             <thead>
             <tr>
@@ -53,6 +55,7 @@
                 </th>
             </tr>
             </thead>
+
             <tbody>
             @foreach($resumo as $turma)
                 <tr>
@@ -68,8 +71,11 @@
                 </tr>
             @endforeach
             </tbody>
+
         </table>
+
     </div>
+    --}}
     <div class="panel panel-default">
         <div class="panel-heading">
             Últimas anotações compartilhadas
@@ -79,7 +85,7 @@
                 <li class="list-group-item">
                     {{ link_to_action(
                         'AnotacaoController@show',
-                        $anotacao->aula->turma->cid->disciplina->nome . ' - ' . $anotacao->name,
+                        $anotacao->name . ' em ' . $anotacao->aula->turma->cid->disciplina->nome . ' - ' . $aula->header,
                         array(
                             'turma' => $anotacao->aula->turma_id,
                             'aula' => $anotacao->aula_id,
