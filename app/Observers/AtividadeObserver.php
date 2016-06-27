@@ -19,7 +19,8 @@ class AtividadeObserver
     {
         $notificacao = new Notificacao();
 
-        $notificacao->mensagem = view('notificacao.templates.nova_atividade', array('model' => $model));
+        $notificacao->mensagem = view('notificacao.templates.nova_atividade', array('model' => $model))->render();
+
 
         $notificacao->paraTurma($model->turma()->get()->first());
 
@@ -30,10 +31,10 @@ class AtividadeObserver
         $original = $model->getOriginal();
         $notificacao = new Notificacao();
         if($original['cancelada'] != $model->cancelada) {
-            $notificacao->mensagem = view('notificacao.templates.atividade_cancelada', array('model' => $model));
+            $notificacao->mensagem = view('notificacao.templates.atividade_cancelada', array('model' => $model))->render();
 
         } else {
-            $notificacao->mensagem = view('notificacao.templates.atividade_atualizada', array('model' => $model, 'original' => $original));
+            $notificacao->mensagem = view('notificacao.templates.atividade_atualizada', array('model' => $model, 'original' => $original))->render();
         }
         $notificacao->paraTurma($model->turma()->get()->first());
 

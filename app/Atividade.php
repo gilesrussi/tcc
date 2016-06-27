@@ -37,8 +37,19 @@ class Atividade extends Model
         return $this->belongsTo('App\Turma');
     }
 
+    public function getDataAttribute($value) {
+        return date('d/m/Y H:i', strtotime($value));
+    }
+
+
+    public function setDataAttribute($value) {
+        $date = str_replace('/', '-', $value);
+        $this->attributes['data'] = date('Y-m-d H:i', strtotime($date));
+    }
+
     public function getHeaderAttribute($value) {
-        return $this->tipo_atividade()->get()->first()->nome . " do dia " . $this->data;
+        $data = Carbon::parse($this->original['data']);
+        return $this->tipo_atividade()->get()->first()->nome . " do dia " . $data->format('d/m/Y') . ' às ' . $data->format('H:i');
     }
 
     public function scopeDoUsuario(Builder $query, User $user, Carbon $de = null, Carbon $ate = null) {
@@ -46,7 +57,7 @@ class Atividade extends Model
         $query = $ate ? $query->where('atividades.data', '<', $ate->addDay()) : $query;
 
         return $query
-            ->select(DB::raw('date(atividades.data) as dia'), DB::raw('DATE_FORMAT(atividades.data, \'%h:%m\') as `horario_inicio`'), 'atividades.cancelada', 'atividades.turma_id', 'atividades.id', 'atividades.tipo_atividade_id')
+            ->select(DB::raw('date(atividades.data) as dia'), 'atividades.data', DB::raw('DATE_FORMAT(atividades.data, \'%H:%i\') as `horario_inicio`'), 'atividades.cancelada', 'atividades.turma_id', 'atividades.id', 'atividades.tipo_atividade_id')
             ->join('turmas', 'atividades.turma_id', '=', 'turmas.id')
             ->join('users_turmas', 'turmas.id', '=', 'users_turmas.turma_id')
             ->where('users_turmas.user_id', '=', $user->id)

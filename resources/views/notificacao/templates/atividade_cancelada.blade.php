@@ -2,7 +2,7 @@ A
 {{
 link_to_action(
     'AtividadeController@show',
-    $model->header,
+    $model->tipo_atividade()->get()->first()->nome . ", " . $model->data,
     array(
         'turma' => $model->turma_id,
         'atividade' => $model->id

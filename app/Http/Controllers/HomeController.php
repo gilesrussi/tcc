@@ -37,8 +37,8 @@ class HomeController extends Controller
             return view('welcome');
         }
         $hoje = new Carbon('today');
-        $aulas = Aula::doUsuario(Auth::user(), $hoje)->with('turma.cid.disciplina')->limit(6)->get();
-        $atividades = Atividade::doUsuario(Auth::user(), $hoje)->with('turma.cid.disciplina')->limit(6)->get();
+        $aulas = Aula::doUsuario(Auth::user(), $hoje)->with('turma.cid.disciplina')->limit(5)->get();
+        $atividades = Atividade::doUsuario(Auth::user(), $hoje)->with('turma.cid.disciplina')->limit(3)->get();
         $anotacoes = Anotacao::dasTurmasDoUsuario(Auth::user())->with('aula.turma.cid.disciplina')->limit(6)->get();
         //$resumo = Auth::user()->turmaNotasFaltas()->get();
         return view('home.index', compact('aulas',  'atividades', 'anotacoes'));

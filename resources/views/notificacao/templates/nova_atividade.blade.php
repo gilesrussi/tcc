@@ -15,7 +15,7 @@ link_to_action(
     'Turma de ' . $model->turma->cid->disciplina->nome,
     array(
         'turma' => $model->turma_id
-    ))
+    ))óó
 }}
 , sendo essa uma
-{{ $model->header }}
+{{ $model->tipo_atividade()->get()->first()->nome . ", " . $model->data}}

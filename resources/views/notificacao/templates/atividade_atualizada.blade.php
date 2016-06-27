@@ -1,7 +1,7 @@
 A
 {{
 link_to_action(
-    'AtividadeCOntroller@show',
+    'AtividadeController@show',
     'atividade do dia ' . $original['data'],
     array(
         'turma' => $model->turma_id,

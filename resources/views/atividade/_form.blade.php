@@ -4,7 +4,7 @@
 </div>
 <div class="form-group">
     {{ Form::label('data', 'Dia e Hora: ') }}
-    {{ Form::datetime('horario_inicio', null, array('class' => 'form-control')) }}
+    {{ Form::datetime('data', null, array('class' => 'form-control')) }}
 </div>
 <div class="form-group">
     {{ Form::label('valor', 'Valor: ') }}

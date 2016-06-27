@@ -94,7 +94,7 @@
                     ) }}
                 </li>
             @empty
-                <li class="list-group-item">Item</li>
+                <li class="list-group-item">Nenhuma anotação compartilhada pelos seus colegas...</li>
             @endforelse
 
         </ul>

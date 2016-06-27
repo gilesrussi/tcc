@@ -51,7 +51,7 @@ class Turma extends Model
     }
 
     public function participantes() {
-        return $this->belongsToMany('App\User', 'users_turmas');
+        return $this->belongsToMany('App\User', 'users_turmas')->orderBy('name');
     }
 
     public function scopeDaDisciplina($query, Disciplina $disciplina) {
